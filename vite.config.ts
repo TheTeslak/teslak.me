@@ -77,6 +77,18 @@ export default defineConfig({
         if (!path)
           return
 
+        const normalizedPath = path.replace(/\\/g, '/')
+
+        if (normalizedPath.endsWith('pages/index.vue')) {
+          const enIndexPath = resolve(import.meta.dirname, 'pages/en/index.md')
+          const { data, content } = matter(fs.readFileSync(enIndexPath, 'utf-8'))
+          const frontmatter = normalizeFrontmatter(data, content, enIndexPath)
+          route.addToMeta({
+            frontmatter,
+          })
+          return
+        }
+
         if (path.endsWith('.md')) {
           const { data, content } = matter(fs.readFileSync(path, 'utf-8'))
           const frontmatter = normalizeFrontmatter(data, content, path)
