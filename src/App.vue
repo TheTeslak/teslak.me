@@ -1,17 +1,64 @@
 <script setup lang="ts">
+import { useHead } from '@unhead/vue'
+import PhotoLightbox from '~/components/photos/PhotoLightbox.vue'
+import { getFeedName, getLanguageTag, localeConfig } from '~/locales/config'
+import { getLocaleFromPath } from '~/logics/i18n-path'
+import { useKeyboardNav } from '~/logics/keyboard-nav'
+import { openLightbox } from '~/logics/lightbox'
+import { useSEO } from '~/logics/seo'
+import { siteOrigin } from '~/logics/site'
+
 const route = useRoute()
 
-const imageModel = ref<HTMLImageElement>()
-const imageAlt = ref<string>()
+useKeyboardNav()
+useSEO(computed(() => (route.meta.frontmatter as Record<string, any>) || {}))
 
-function setImageModel(img: HTMLImageElement) {
-  imageModel.value = img
-  imageAlt.value = img.alt
-  const figure = img.closest('figure')
-  if (figure) {
-    const caption = figure.querySelector('figcaption')
-    if (caption?.textContent)
-      imageAlt.value ||= caption.textContent
+const currentLocale = computed(() => getLocaleFromPath(route.path))
+// The document shell follows the URL; fallback article content declares its own language.
+const currentLanguageTag = computed(() => getLanguageTag(currentLocale.value))
+const currentFeedName = computed(() => getFeedName(currentLocale.value))
+const currentFeedTitle = computed(() => localeConfig[currentLocale.value].feedTitle)
+
+function getFeedHref(extension: 'atom' | 'json' | 'xml') {
+  return `${siteOrigin}/${currentFeedName.value}.${extension}`
+}
+
+useHead(() => ({
+  htmlAttrs: {
+    lang: currentLanguageTag.value,
+  },
+  link: [
+    {
+      rel: 'alternate',
+      type: 'application/atom+xml',
+      title: `${currentFeedTitle.value} Atom`,
+      href: getFeedHref('atom'),
+    },
+    {
+      rel: 'alternate',
+      type: 'application/rss+xml',
+      title: `${currentFeedTitle.value} RSS`,
+      href: getFeedHref('xml'),
+    },
+    {
+      rel: 'alternate',
+      type: 'application/feed+json',
+      title: `${currentFeedTitle.value} JSON Feed`,
+      href: getFeedHref('json'),
+    },
+  ],
+}))
+
+watch(currentLocale, (locale) => {
+  if (typeof document !== 'undefined')
+    document.documentElement.lang = getLanguageTag(locale)
+}, { immediate: true })
+
+function getRectCenter(el: HTMLElement) {
+  const rect = el.getBoundingClientRect()
+  return {
+    x: rect.left + rect.width / 2,
+    y: rect.top + rect.height / 2,
   }
 }
 
@@ -26,66 +73,87 @@ useEventListener('click', async (e) => {
     return
   if (path.some(el => el instanceof HTMLElement && ['A', 'BUTTON'].includes(el.tagName)))
     return
-  if (!path.some(el => el instanceof HTMLElement && (el.classList.contains('prose') || el.classList.contains('photos'))))
+  if (path.some(el => el instanceof HTMLElement && el.closest('.photos')))
+    return
+  if (!path.some(el => el instanceof HTMLElement && el.classList.contains('prose')))
     return
 
   // Do not open image when they are moving. Mainly for mobile to avoid conflict with hovering behavior.
-  const pos = first.getBoundingClientRect()
+  const pos = getRectCenter(first)
   await new Promise(resolve => setTimeout(resolve, 50))
-  const newPos = first.getBoundingClientRect()
-  if (pos.left !== newPos.left || pos.top !== newPos.top)
+  const newPos = getRectCenter(first)
+  if (!first.isConnected || !first.naturalWidth || Math.abs(pos.x - newPos.x) > 1 || Math.abs(pos.y - newPos.y) > 1)
     return
 
-  setImageModel(first)
+  const figure = first.closest('figure')
+  const caption = figure?.querySelector('figcaption')?.textContent || first.alt || ''
+  openLightbox([{
+    url: first.currentSrc || first.src,
+    width: first.naturalWidth,
+    height: first.naturalHeight,
+    alt: first.alt,
+    title: caption,
+    classes: first.className.split(/\s+/).filter(cls => cls.includes('filter')).join(' '),
+  }], 0, first)
 })
 
-onKeyStroke('ArrowRight', (e) => {
-  if (!imageModel.value || imageModel.value.dataset.photoIndex == null)
-    return
+function prepareImageTriggers() {
+  for (const image of document.querySelectorAll<HTMLImageElement>('main .prose img:not(.no-preview)')) {
+    if (image.closest('a, button, .photos'))
+      continue
+    image.tabIndex = 0
+    image.setAttribute('role', 'button')
+    image.setAttribute('aria-haspopup', 'dialog')
+    image.setAttribute('aria-label', image.alt || 'View image')
+  }
+}
 
-  const index = Number.parseInt(imageModel.value.dataset.photoIndex)
-  const nextIndex = index + 1
-  const nextImg = document.querySelector(`img[data-photo-index="${nextIndex}"]`) as HTMLImageElement | null
-  if (nextImg) {
-    setImageModel(nextImg)
-    e.preventDefault()
+useEventListener('keydown', (event: KeyboardEvent) => {
+  if ((event.key === 'Enter' || event.key === ' ') && event.target instanceof HTMLImageElement && event.target.getAttribute('role') === 'button') {
+    event.preventDefault()
+    event.target.click()
   }
 })
 
-onKeyStroke('ArrowLeft', (e) => {
-  if (!imageModel.value || imageModel.value.dataset.photoIndex == null)
-    return
-
-  const index = Number.parseInt(imageModel.value.dataset.photoIndex)
-  const prevIndex = index - 1
-  const prevImg = document.querySelector(`img[data-photo-index="${prevIndex}"]`) as HTMLImageElement | null
-  if (prevImg) {
-    setImageModel(prevImg)
-    e.preventDefault()
-  }
-})
-
-onKeyStroke('Escape', (e) => {
-  if (imageModel.value) {
-    imageModel.value = undefined
-    e.preventDefault()
-  }
+onMounted(() => {
+  watch(() => route.path, () => nextTick(prepareImageTriggers), { immediate: true })
+  // eslint-disable-next-line no-console
+  console.log(
+    '%c👁 if you gaze long into an abyss, the abyss also gazes at you',
+    'color: #888; font-size: 14px; font-family: monospace;',
+  )
 })
 </script>
 
 <template>
+  <a href="#main-content" class="skip-link">{{ $t('a11y-skip-to-content') }}</a>
   <NavBar />
-  <main class="px-7 py-10 of-x-hidden">
+  <main id="main-content" class="px-7 py-10 of-x-hidden" tabindex="-1" role="main">
     <RouterView />
     <Footer :key="route.path" />
   </main>
-  <Transition name="fade">
-    <div v-if="imageModel" fixed top-0 left-0 right-0 bottom-0 z-500 backdrop-blur-7 @click="imageModel = undefined">
-      <div absolute top-0 left-0 right-0 bottom-0 bg-white:75 dark:bg-black:50 z--1 />
-      <img :src="imageModel.src" :alt="imageModel.alt" :class="imageModel.className" max-w-screen max-h-screen w-full h-full object-contain>
-      <div v-if="imageAlt" text-white bg-white:75 dark:bg-black:50 absolute right-5 bottom-5 px2 py1 flex justify-center items-center>
-        {{ imageAlt }}
-      </div>
-    </div>
-  </Transition>
+  <PhotoLightbox />
 </template>
+
+<style scoped>
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 1.5rem;
+  z-index: 1000;
+  padding: 0.5rem 1rem;
+  background-color: var(--c-bg);
+  color: inherit;
+  border: 1px solid rgba(125, 125, 125, 0.4);
+  border-radius: 0.25rem;
+  font-weight: bold;
+  text-decoration: none;
+  transition: top 0.2s ease;
+}
+
+.skip-link:focus {
+  top: 1.5rem;
+  outline: 2px solid rgba(125, 125, 125, 0.6);
+  outline-offset: 4px;
+}
+</style>

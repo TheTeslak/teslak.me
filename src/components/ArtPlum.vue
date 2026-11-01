@@ -1,5 +1,7 @@
 <script setup lang='ts'>
 import type { Fn } from '@vueuse/core'
+import { useArtMotion } from '~/logics/art-motion'
+import { useArtResize } from '~/logics/art-resize'
 
 const r180 = Math.PI
 const r90 = Math.PI / 2
@@ -16,11 +18,18 @@ const MIN_BRANCH = 30
 const len = ref(6)
 const stopped = ref(false)
 
-function initCanvas(canvas: HTMLCanvasElement, width = 400, height = 400, _dpi?: number) {
-  const ctx = canvas.getContext('2d')!
+type VendorCanvasRenderingContext2D = CanvasRenderingContext2D & {
+  backingStorePixelRatio?: number
+  mozBackingStorePixelRatio?: number
+  msBackingStorePixelRatio?: number
+  oBackingStorePixelRatio?: number
+  webkitBackingStorePixelRatio?: number
+}
 
-  const dpr = window.devicePixelRatio || 1
-  // @ts-expect-error vendor
+function initCanvas(canvas: HTMLCanvasElement, width = 400, height = 400, _dpi?: number) {
+  const ctx = canvas.getContext('2d')! as VendorCanvasRenderingContext2D
+
+  const dpr = Math.min(window.devicePixelRatio || 1, 2)
   const bsr = ctx.webkitBackingStorePixelRatio || ctx.mozBackingStorePixelRatio || ctx.msBackingStorePixelRatio || ctx.oBackingStorePixelRatio || ctx.backingStorePixelRatio || 1
 
   const dpi = _dpi || dpr / bsr
@@ -43,27 +52,40 @@ function polar2cart(x = 0, y = 0, r = 0, theta = 0) {
 onMounted(async () => {
   const canvas = el.value!
   const { ctx } = initCanvas(canvas, size.width, size.height)
-  const { width, height } = canvas
+  interface Branch {
+    dx: number
+    dy: number
+    right: boolean
+    bottom: boolean
+    segments: [number, number, number, number][]
+  }
+  const branches: Branch[] = []
+  let oldWidth = size.width
+  let oldHeight = size.height
+  let segmentCount = 0
+  const MAX_SEGMENTS = 20000
 
   let steps: Fn[] = []
   let prevSteps: Fn[] = []
 
-  const step = (x: number, y: number, rad: number, counter: { value: number } = { value: 0 }) => {
+  const step = (branch: Branch, x: number, y: number, rad: number, counter: { value: number } = { value: 0 }) => {
     const length = random() * len.value
     counter.value += 1
 
     const [nx, ny] = polar2cart(x, y, length, rad)
 
     ctx.beginPath()
-    ctx.moveTo(x, y)
-    ctx.lineTo(nx, ny)
+    ctx.moveTo(x + branch.dx, y + branch.dy)
+    ctx.lineTo(nx + branch.dx, ny + branch.dy)
     ctx.stroke()
+    branch.segments.push([x, y, nx, ny])
+    segmentCount++
 
     const rad1 = rad + random() * r15
     const rad2 = rad - random() * r15
 
     // out of bounds
-    if (nx < -100 || nx > size.width + 100 || ny < -100 || ny > size.height + 100)
+    if (segmentCount >= MAX_SEGMENTS || nx + branch.dx < -100 || nx + branch.dx > size.width + 100 || ny + branch.dy < -100 || ny + branch.dy > size.height + 100)
       return
 
     const rate = counter.value <= MIN_BRANCH
@@ -72,11 +94,11 @@ onMounted(async () => {
 
     // left branch
     if (random() < rate)
-      steps.push(() => step(nx, ny, rad1, counter))
+      steps.push(() => step(branch, nx, ny, rad1, counter))
 
     // right branch
     if (random() < rate)
-      steps.push(() => step(nx, ny, rad2, counter))
+      steps.push(() => step(branch, nx, ny, rad2, counter))
   }
 
   let lastTime = performance.now()
@@ -114,24 +136,92 @@ onMounted(async () => {
    */
   const randomMiddle = () => random() * 0.6 + 0.2
 
+  function renderStatic() {
+    // Bound actual draw calls, not generations of a branching work queue.
+    let remaining = 4000
+    while (steps.length && remaining > 0) {
+      const nextSteps = steps
+      steps = []
+      for (const fn of nextSteps) {
+        if (remaining-- <= 0)
+          break
+        fn()
+      }
+    }
+    steps = []
+    stopped.value = true
+  }
+  const motion = useArtMotion(controls, renderStatic, stopped)
+
   start.value = () => {
     controls.pause()
-    ctx.clearRect(0, 0, width, height)
+    ctx.clearRect(0, 0, size.width, size.height)
     ctx.lineWidth = 1
     ctx.strokeStyle = color
     prevSteps = []
-    steps = [
-      () => step(randomMiddle() * size.width, -5, r90),
-      () => step(randomMiddle() * size.width, size.height + 5, -r90),
-      () => step(-5, randomMiddle() * size.height, 0),
-      () => step(size.width + 5, randomMiddle() * size.height, r180),
+    branches.length = 0
+    segmentCount = 0
+    const roots = [
+      { x: randomMiddle() * size.width, y: -5, rad: r90, edge: 'top' },
+      { x: randomMiddle() * size.width, y: size.height + 5, rad: -r90, edge: 'bottom' },
+      { x: -5, y: randomMiddle() * size.height, rad: 0, edge: 'left' },
+      { x: size.width + 5, y: randomMiddle() * size.height, rad: r180, edge: 'right' },
     ]
     if (size.width < 500)
-      steps = steps.slice(0, 2)
-    controls.resume()
-    stopped.value = false
+      roots.length = 2
+    steps = roots.map(({ x, y, rad, edge }) => {
+      const branch: Branch = { dx: 0, dy: 0, right: edge === 'right' || (edge !== 'left' && x >= size.width / 2), bottom: edge === 'bottom' || (edge !== 'top' && y >= size.height / 2), segments: [] }
+      branches.push(branch)
+      return () => step(branch, x, y, rad)
+    })
+
+    if (motion.reducedMotion.value) {
+      renderStatic()
+    }
+    else {
+      stopped.value = false
+      if (motion.shouldAnimate.value)
+        controls.resume()
+    }
   }
 
+  let snapshot: HTMLCanvasElement | undefined
+  useArtResize(() => {
+    snapshot?.remove()
+    snapshot = undefined
+    if (!motion.reducedMotion.value && canvas.parentElement) {
+      const previous = document.createElement('canvas')
+      previous.width = canvas.width
+      previous.height = canvas.height
+      previous.style.cssText = `position:absolute;left:0;top:0;width:${oldWidth}px;height:${oldHeight}px;pointer-events:none`
+      previous.getContext('2d')?.drawImage(canvas, 0, 0)
+      canvas.parentElement.appendChild(previous)
+      snapshot = previous
+      const fade = previous.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 180, easing: 'ease-out' })
+      fade.onfinish = () => previous.remove()
+    }
+    const dw = size.width - oldWidth
+    const dh = size.height - oldHeight
+    oldWidth = size.width
+    oldHeight = size.height
+    for (const branch of branches) {
+      if (branch.right)
+        branch.dx += dw
+      if (branch.bottom)
+        branch.dy += dh
+    }
+    initCanvas(canvas, size.width, size.height)
+    ctx.lineWidth = 1
+    ctx.strokeStyle = color
+    for (const branch of branches) {
+      for (const [x, y, nx, ny] of branch.segments) {
+        ctx.beginPath()
+        ctx.moveTo(x + branch.dx, y + branch.dy)
+        ctx.lineTo(nx + branch.dx, ny + branch.dy)
+        ctx.stroke()
+      }
+    }
+  })
   start.value()
 })
 const mask = computed(() => 'radial-gradient(circle, transparent, black);')
@@ -143,6 +233,6 @@ const mask = computed(() => 'radial-gradient(circle, transparent, black);')
     style="z-index: -1"
     :style="`mask-image: ${mask};--webkit-mask-image: ${mask};`"
   >
-    <canvas ref="el" width="400" height="400" />
+    <canvas ref="el" width="400" height="400" aria-hidden="true" />
   </div>
 </template>

@@ -2,11 +2,14 @@
 import type { Texture } from 'pixi.js'
 import { Application, Graphics, Particle, ParticleContainer } from 'pixi.js'
 import { createNoise3D } from 'simplex-noise'
+import { useArtMotion } from '~/logics/art-motion'
+import { useArtResize } from '~/logics/art-resize'
 
 const el = useTemplateRef('el')
 
-let w = window.innerWidth
-let h = window.innerHeight
+let w = typeof window === 'undefined' ? 0 : window.innerWidth
+let h = typeof window === 'undefined' ? 0 : window.innerHeight
+let disposed = false
 
 const SCALE = 200
 const LENGTH = 5
@@ -53,16 +56,17 @@ async function setup() {
   const app = new Application()
   await app.init({
     backgroundAlpha: 0,
-    // background: '#ffffff',
+    autoStart: false,
     antialias: true,
-    resolution: window.devicePixelRatio,
-    // resizeTo: el.value,
+    resolution: Math.min(window.devicePixelRatio || 1, 2),
     eventMode: 'none',
     autoDensity: true,
   })
+  if (disposed || !el.value) {
+    app.destroy(true, { children: true, texture: true, textureSource: true })
+    return
+  }
   el.value.appendChild(app.canvas)
-
-  await nextTick()
   app.renderer.resize(window.innerWidth, window.innerHeight)
 
   const particleContainer = new ParticleContainer({ dynamicProperties: { position: true, alpha: true } })
@@ -71,9 +75,7 @@ async function setup() {
   const dotTexture = createDotTexture(app)
   addPoints({ dotTexture, particleContainer })
 
-  app.ticker.add(() => {
-    const t = Date.now() / 10000
-
+  function updatePoints(t: number) {
     for (const p of points) {
       const { x, y, opacity, particle } = p
       const rad = getForceOnPoint(x, y, t)
@@ -85,17 +87,38 @@ async function setup() {
       particle.y = ny
       particle.alpha = (Math.abs(Math.cos(rad)) * 0.8 + 0.2) * opacity
     }
+  }
+
+  let phase = 0
+  function renderStatic() {
+    updatePoints(phase)
+    app.render()
+  }
+  renderStatic()
+  app.ticker.add((ticker) => {
+    phase += ticker.deltaMS / 10000
+    updatePoints(phase)
   })
 
   mountedScope.run(() => {
-    useEventListener('resize', async () => {
+    useArtMotion({ pause: () => app.ticker.stop(), resume: () => app.ticker.start() }, renderStatic)
+    useArtResize(() => {
       w = window.innerWidth
       h = window.innerHeight
+      app.renderer.resolution = Math.min(window.devicePixelRatio || 1, 2)
       app.renderer.resize(w, h)
+      for (let i = points.length - 1; i >= 0; i--) {
+        const point = points[i]
+        if (point.x >= w + SPACING || point.y >= h + SPACING) {
+          particleContainer.removeParticle(point.particle)
+          existingPoints.delete(`${point.x}-${point.y}`)
+          points.splice(i, 1)
+        }
+      }
       addPoints({ dotTexture, particleContainer })
+      renderStatic()
     })
     onScopeDispose(() => {
-      // For some reason this throws an error, maybe something wrong with pixi.js
       try {
         app?.destroy(true, { children: true, texture: true, textureSource: true })
       }
@@ -110,11 +133,12 @@ onMounted(async () => {
   await setup()
 })
 
-onUnmounted(() => {
+onBeforeUnmount(() => {
+  disposed = true
   mountedScope.stop()
 })
 </script>
 
 <template>
-  <div ref="el" z--1 fixed size-screen left-0 right-0 top-0 bottom-0 pointer-events-none dark:invert />
+  <div ref="el" z--1 fixed size-screen left-0 right-0 top-0 bottom-0 pointer-events-none dark:invert aria-hidden="true" />
 </template>

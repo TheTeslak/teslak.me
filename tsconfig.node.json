@@ -1,0 +1,19 @@
+{
+  "extends": "./tsconfig.json",
+  "include": [
+    "shims.d.ts",
+    "externals.d.ts",
+    "vite.config.ts",
+    "unocss.config.ts",
+    "netlify/**/*.ts",
+    "scripts/**/*.ts",
+    "build/**/*.ts",
+    "playwright.config.ts",
+    "tests/mobile/*.ts"
+  ],
+  "exclude": [
+    "dist",
+    "node_modules",
+    "temp"
+  ]
+}
