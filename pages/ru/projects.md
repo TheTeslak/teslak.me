@@ -5,7 +5,7 @@ description: Список проектов
 art: dots
 ---
 
-<script setup lang="ts">
+<script setup>
 import { projects } from '~/data/projects'
 </script>
 

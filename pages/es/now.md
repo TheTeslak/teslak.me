@@ -7,6 +7,6 @@ art: random
 
 <NowEntry date="2026-11-01">
 
-¡Hola, mundo!
+Lancé el sitio web
 
 </NowEntry>

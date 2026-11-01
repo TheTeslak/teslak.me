@@ -77,7 +77,7 @@ export default defineConfig({
         if (!path)
           return
 
-        if (!path.includes('projects.md') && path.endsWith('.md')) {
+        if (path.endsWith('.md')) {
           const { data, content } = matter(fs.readFileSync(path, 'utf-8'))
           const frontmatter = normalizeFrontmatter(data, content, path)
           normalizedFrontmatterById.set(resolve(path), frontmatter)
@@ -266,7 +266,7 @@ export default defineConfig({
     Components({
       extensions: ['vue', 'md'],
       dts: true,
-      include: [/\.vue$/, /\.vue\?vue/, /\.md$/],
+      include: [/\.vue$/, /\.vue\?vue/, /\.md$/, /\.md\?vue/],
       resolvers: [
         IconsResolver({
           componentPrefix: '',
