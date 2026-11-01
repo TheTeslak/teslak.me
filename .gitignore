@@ -21,7 +21,6 @@ dg-*.txt
 public/search-index.json
 data/audio-metadata.json
 public/sitemap.xml
-photos/thumbs
 test-results
 playwright-report
 pages/ru/articles/temp.md
