@@ -96,6 +96,6 @@ photos-view-contain = Do not crop
 photos-status-trigger = UPD?
 photos-status-label = Photo update status
 photos-status-text =
-    I rarely update my gallery: I keep putting off editing photos and pick up my camera less and less often
+    The gallery is rarely updated: photo editing keeps getting put off, and the camera comes out less and less often
 
-    I've always wanted my photos to be artistic. These days, AI can create impressive images much faster
+    The goal was always to shoot artistically—something AI now achieves much faster

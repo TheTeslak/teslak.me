@@ -100,6 +100,6 @@ photos-view-contain = Ne pas recadrer
 photos-status-trigger = UPD?
 photos-status-label = Statut des mises à jour des photos
 photos-status-text =
-    Je mets rarement la galerie à jour : je repousse la retouche des photos et je sors de moins en moins mon appareil
+    La galerie est rarement mise à jour : la retouche des photos est sans cesse repoussée et l'appareil sort de moins en moins
 
-    J'ai toujours cherché à donner une dimension artistique à mes photos. Aujourd'hui, l'IA crée des images impressionnantes bien plus vite
+    L'envie a toujours été de donner une dimension artistique aux clichés — ce que l'IA fait aujourd'hui bien plus vite

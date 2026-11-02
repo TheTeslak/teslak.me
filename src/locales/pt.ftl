@@ -100,6 +100,6 @@ photos-view-contain = Não recortar
 photos-status-trigger = UPD?
 photos-status-label = Estado das atualizações das fotos
 photos-status-text =
-    Atualizo a galeria raramente: vou adiando a edição das fotos e uso a câmera cada vez menos
+    A galeria é atualizada raramente: a edição das fotos vai ficando para depois e a câmera sai cada vez menos
 
-    Sempre busquei fotografar com um olhar artístico. Hoje, a IA cria imagens impressionantes muito mais rápido
+    A busca sempre foi por um olhar artístico na fotografia — algo que hoje a IA faz muito mais rápido

@@ -96,6 +96,6 @@ photos-view-contain = Nicht zuschneiden
 photos-status-trigger = UPD?
 photos-status-label = Status der Foto-Aktualisierungen
 photos-status-text =
-    Ich ergänze die Galerie nur selten: Die Bildbearbeitung schiebe ich auf und greife immer seltener zur Kamera
+    Die Galerie wird nur selten ergänzt: Die Bildbearbeitung bleibt liegen, und die Kamera kommt immer seltener zum Einsatz
 
-    Ich wollte immer künstlerisch fotografieren. Inzwischen erzeugt KI beeindruckende Bilder viel schneller
+    Der Anspruch war immer, künstlerisch zu fotografieren – was KI inzwischen weitaus schneller erledigt

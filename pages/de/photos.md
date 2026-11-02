@@ -9,5 +9,5 @@ display: ''
 <PhotoGalleryAll />
 
 <div class="text-center mt-10 opacity-50 italic">
-  In letzter Zeit fotografiere ich kaum noch, und viele meiner Aufnahmen warten immer noch auf die Bearbeitung
+  Das war’s
 </div>

@@ -36,7 +36,12 @@ const photos = computed(() => {
           :label="$t('photos-status-label')"
           size="prose"
         >
-          <p class="whitespace-pre-line" v-text="$t('photos-status-text')" />
+          <p
+            v-for="(paragraph, idx) in $t('photos-status-text').split(/\n\s*\n/)"
+            :key="idx"
+          >
+            {{ paragraph.trim() }}
+          </p>
         </Popover>
       </div>
     </div>
