@@ -8,12 +8,12 @@ pic:
   r: full
   link: /en/who-is-teslak
   text: Teslak
-display: Teslak is curious about tech, AI, UX design, philosophy, economics, biology ✦ and all sorts of other things
+display: Teslak is curious about tech, AI, UX design, philosophy, economics, biology ✦ and all sorts of other things
 ---
 
 Working on AI agents, automation, and still design, though it’s been changing a lot lately
 
-Building cross-disciplinary depth, learning something new every day. Following an academic approach and a scientific worldview
+Building cross-disciplinary depth, learning something new every day. Following an academic approach and a scientific worldview
 
 Writing 🪶 [notes](/en/notes) here and running a [Telegram channel with reposts of curious things](https://t.me/Tes404)
 

@@ -1,6 +1,6 @@
 ---
 title: Teslaks Refugium · persönlicher Blog
-description: Neugier ohne Dogmen, Ideen an der Realität prüfen. Essays, Notizen und Projekte
+description: Neugier ohne Dogmen, Ideen an der Realität prüfen. Essays, Notizen und Projekte
 image: https://teslak.me/og.jpg
 art: random
 pic:
@@ -8,10 +8,10 @@ pic:
   r: full
   link: /de/who-is-teslak
   text: Teslak
-display: Teslak ist neugierig auf Technologie, KI, UX-Design, Philosophie, Wirtschaft, Biologie ✦ und allerlei anderes
+display: Teslak ist neugierig auf Technologie, KI, UX-Design, Philosophie, Wirtschaft, Biologie ✦ und allerlei anderes
 ---
 
-Arbeite an KI-Agenten, Automatisierung und weiterhin an Design, auch wenn es sich in den letzten Jahren stark verändert hat
+Arbeite an KI-Agenten, Automatisierung und weiterhin an Design, auch wenn es sich in den letzten Jahren stark verändert hat
 
 Setze auf Interdisziplinarität und lerne jeden Tag etwas Neues. Folge dabei einem akademischen Ansatz und einem wissenschaftlichen Weltbild
 

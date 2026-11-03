@@ -16,6 +16,17 @@
     />
     <script>
       ;(function () {
+        if (location.pathname === '/' || location.pathname === '/index.html') {
+          var match = document.cookie.match(/(?:^|;\s*)site-locale=([^;]*)/)
+          var lang = match ? match[1] : (navigator.language || '').slice(0, 2).toLowerCase()
+          var supported = ['en', 'ru', 'es', 'pt', 'de', 'fr']
+          var target = supported.indexOf(lang) !== -1 ? lang : 'en'
+          location.replace('/' + target + location.search + location.hash)
+        }
+      })()
+    </script>
+    <script>
+      ;(function () {
         const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
         const setting = localStorage.getItem('vueuse-color-scheme') || 'auto'
         if (setting === 'dark' || (prefersDark && setting !== 'light'))

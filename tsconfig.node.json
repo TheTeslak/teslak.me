@@ -6,6 +6,7 @@
     "vite.config.ts",
     "unocss.config.ts",
     "netlify/**/*.ts",
+    "worker/**/*.ts",
     "scripts/**/*.ts",
     "build/**/*.ts",
     "playwright.config.ts",

@@ -81,7 +81,16 @@ onMounted(async () => {
 </template>
 
 <style>
-.twitter-tweet iframe {
-  clip-path: inset(0 round 12px) !important;
+.twitter-tweet,
+.twitter-tweet-rendered,
+.twitter-tweet iframe,
+iframe.twitter-tweet {
+  background-color: transparent !important;
+  color-scheme: normal;
+}
+
+.twitter-tweet iframe,
+iframe.twitter-tweet {
+  border-radius: 13px !important;
 }
 </style>

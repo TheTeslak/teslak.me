@@ -186,9 +186,7 @@ export default defineConfig({
       include: [/\.md$/, /\.md\?vue$/],
       // Exclude Vue SFC virtual blocks so markdown is only transformed once.
       exclude: [/\.md\?vue&type=/],
-      wrapperComponent: id => id.includes('/demo/')
-        ? 'WrapperDemo'
-        : 'WrapperPost',
+      wrapperComponent: 'WrapperPost',
       wrapperClasses: (id, code) => code.includes('@layout-full-width')
         ? ''
         : 'prose m-auto slide-enter-content',

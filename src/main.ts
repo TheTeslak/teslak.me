@@ -100,6 +100,15 @@ export const createApp = ViteSSG(
     app.use(fluent)
 
     if (isClient) {
+      window.addEventListener('vite:preloadError', (event) => {
+        event.preventDefault()
+        const key = 'vite-preload-retry'
+        if (!sessionStorage.getItem(key)) {
+          sessionStorage.setItem(key, 'true')
+          window.location.reload()
+        }
+      })
+
       router.beforeEach((to) => {
         const targetLocale = applyRouteLocale(to.path)
 
@@ -109,8 +118,27 @@ export const createApp = ViteSSG(
         NProgress.start()
       })
 
-      router.afterEach(() => {
+      router.afterEach((to) => {
+        sessionStorage.removeItem('vite-preload-retry')
+        if (to?.fullPath)
+          sessionStorage.removeItem(`chunk-retry:${to.fullPath}`)
         NProgress.done()
+      })
+
+      router.onError((error, to) => {
+        NProgress.done()
+
+        const isChunkError = error?.message?.includes('Failed to fetch dynamically imported module')
+          || error?.message?.includes('error loading dynamically imported module')
+          || error?.message?.includes('Importing a module script failed')
+
+        if (isChunkError && to?.fullPath) {
+          const key = `chunk-retry:${to.fullPath}`
+          if (!sessionStorage.getItem(key)) {
+            sessionStorage.setItem(key, 'true')
+            window.location.href = to.fullPath
+          }
+        }
       })
     }
   },

@@ -8,7 +8,7 @@ import { isAnyModalOpen } from './modal-manager'
  * Available art styles for background decoration.
  * Order defines the cycling sequence for ↑/↓ keys.
  */
-export const artStyles = ['plum', 'dots', 'cellular', 'topography', 'interference', 'none'] as const
+export const artStyles = ['none', 'plum', 'dots', 'cellular', 'topography'] as const
 export type ArtStyle = typeof artStyles[number]
 
 /**
@@ -130,11 +130,11 @@ export function useKeyboardNav() {
     artOverride.value = artStyles[prev]
   })
 
-  // F5 — reset art override to the page's default (frontmatter value)
+  // F5 — reset art override to the page's default ('none')
   onKeyStroke('F5', (e) => {
     if (isAnyModalOpen.value || !document.querySelector('[data-art]'))
       return
     e.preventDefault()
-    artOverride.value = ''
+    artOverride.value = 'none'
   })
 }

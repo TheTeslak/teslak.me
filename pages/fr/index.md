@@ -8,12 +8,12 @@ pic:
   r: full
   link: /fr/who-is-teslak
   text: Teslak
-display: Teslak est curieux de la tech, de l’IA, du design UX, de la philosophie, de l’économie, de la biologie ✦ et de plein d’autres choses
+display: Teslak est curieux de la tech, de l’IA, du design UX, de la philosophie, de l’économie, de la biologie ✦ et de plein d’autres choses
 ---
 
-Je travaille sur des agents d’IA, l’automatisation et toujours sur le design, même si celui-ci a beaucoup évolué ces dernières années
+Je travaille sur des agents d’IA, l’automatisation et toujours sur le design, même si celui-ci a beaucoup évolué ces dernières années
 
-Je cultive la pluridisciplinarité en apprenant quelque chose de nouveau chaque jour. Je suis une démarche académique et une vision scientifique du monde
+Je cultive la pluridisciplinarité en apprenant quelque chose de nouveau chaque jour. Je suis une démarche académique et une vision scientifique du monde
 
 J’écris ici des 🪶 [notes](/fr/notes) et tiens un [canal Telegram où je partage des pépites et curiosités](https://t.me/Tes404)
 

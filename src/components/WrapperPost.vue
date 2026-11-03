@@ -577,7 +577,6 @@ const artComponentMap: Record<string, () => Promise<any>> = {
   dots: () => import('./ArtDots.vue'),
   cellular: () => import('./ArtCellular.vue'),
   topography: () => import('./ArtTopography.vue'),
-  interference: () => import('./ArtInterference.vue'),
 }
 
 const asyncArtComponents = Object.fromEntries(
@@ -588,44 +587,21 @@ const asyncArtComponents = Object.fromEntries(
 const disableCellularArt = useMediaQuery('(max-width: 767px), (max-height: 767px) and (pointer: coarse)')
 
 const activeArtStyle = computed(() => {
-  if (artOverride.value)
-    return artOverride.value
-  return frontmatter.art || ''
+  return artOverride.value || 'none'
 })
 
-let randomArt = ''
 const ArtComponent = computed(() => {
-  // No art in frontmatter — this page has no background
+  // Page must support art
   if (!frontmatter.art)
     return undefined
 
-  // Keyboard override takes priority when set
-  if (artOverride.value === 'none')
+  // Disabled by default; user can activate via keyboard arrows (↑ / ↓)
+  if (!artOverride.value || artOverride.value === 'none')
     return undefined
 
-  let art = artOverride.value && artComponentMap[artOverride.value]
-    ? artOverride.value
-    : frontmatter.art
-  if (art === 'random') {
-    const weighted = [
-      'plum',
-      'plum',
-      'plum',
-      'dots',
-      'dots',
-      'cellular',
-      'cellular',
-    ].filter(style => !disableCellularArt.value || style !== 'cellular')
-    const lastArt = typeof window !== 'undefined' ? localStorage.getItem('dg-last-art') : null
-    const filtered = lastArt ? weighted.filter(a => a !== lastArt) : weighted
-    const pool = filtered.length > 0 ? filtered : weighted
-    if (!randomArt) {
-      randomArt = pool[Math.floor(Math.random() * pool.length)]
-      if (typeof window !== 'undefined')
-        localStorage.setItem('dg-last-art', randomArt)
-    }
-    art = randomArt
-  }
+  const art = artComponentMap[artOverride.value] ? artOverride.value : undefined
+  if (!art)
+    return undefined
 
   if (art === 'cellular' && disableCellularArt.value)
     return undefined

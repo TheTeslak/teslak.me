@@ -8,24 +8,24 @@ art: random
 open: true
 ---
 
-[It’s not easy to determine which qualities and hobbies to list. Time seemed like a fair measure: focusing on the things I’ve been interested in and doing almost daily for years]{.muted}
+[Hard to pick which traits and interests to list. Time felt like a fair filter: what I’ve cared about and done almost daily for years]{.muted}
 
-A believer in depth, 🔍 research, working with data, and best practices
-In this, I feel a strong affinity with [Gwern](https://gwern.net/)
+Into depth, 🔍 research, working with data, and best practices
+I feel a strong kinship with [Gwern](https://gwern.net/) here
 
-Most of my career has been in interface design. However, it’s hard to call myself just a designer; my interests have always spanned much wider
+Most of my career has been in interface design. Still, calling myself just a designer feels too narrow — my interests have always run wider
 
-Early on, tried my hand at programming: C++ and web dev. Eventually moved away from code to the intersection of visuals, technology, and product logic
+Early on, dabbled in programming: C++ and web dev. Moved from code to the intersection of visuals, technology, and product logic
 
-Did illustration and graphic design for a while, though the technical side always felt more like home. Get along well with developers, understand how modern systems work, and know the technical constraints of shipping a product
+Did illustration and graphic design for a while, though I’ve always felt stronger on the technical side. I click well with developers, understand how modern systems work, and know the technical constraints of shipping a product
 
 Worked on a [Fintech CRM]{term="Fintech CRM" definition="A system for online brokers and financial platforms — companies through which people trade or invest. It manages the entire customer lifecycle from onboarding to account opening: verifying identity and documents, tracking deposits and withdrawals, calculating affiliate rewards, and storing all history in one place"}, at a strong design studio, and at AI startups. Shipped projects for major corporations and agencies
 
-Know what good processes look like and care about the details
+Know what good process looks like and care about the details
 
-Following _all_ the models and vibe-coding since the AI boom, understanding their practical limits
+Since the AI boom, I’ve been following _all_ the models and vibe-coding, with a clear sense of their practical limits
 
-More details in the spoiler below
+More details in the toggle below
 
 ::: spoiler Teslak and AI
 
@@ -35,39 +35,39 @@ Not an ML engineer, though I’ve done basic model training (OCR CNN, fine-tune
 
 First real dive into AI began with an article [about Artbreeder](https://www.theverge.com/2020/8/21/21395115/roman-emperors-photorealistic-portraits-ai-artbreeder-dan-voshart) and its impressive (for the time) image generations
 
-[Midjourney](https://t.me/TesNot/314)’s 2022 release was a complete rabbit hole: spent days generating images, though it was a far cry from today’s models
+[Midjourney](https://t.me/TesNot/314)’s 2022 release blew me away — spent days generating nonstop, though it was miles away from today’s models
 
 Used GPT even before ChatGPT launched ([peak of that era](https://t.me/Tes404/1058) + the post right before it), including [Russian adaptations](https://t.me/Tes404/599), and [wrote](https://t.me/Tes404/2929) about the release of GPT-3.5 on the very day it came out
 
-Built agents using LangGraph, LlamaIndex, and n8n, automating some browser tasks with [Harpa](https://harpa.ai/). When OpenClaw dropped, moved most of my pipeline over, analyzing its architecture and how it evolved. Now on Hermes. Keeping an eye on devtools and how harnesses evolve
+Built agents using LangGraph, LlamaIndex, and n8n, automating some browser tasks with [Harpa](https://harpa.ai/). When OpenClaw dropped, moved most of my pipeline over, dissecting its architecture and how it evolved. Now on Hermes. Keeping an eye on devtools and the evolution of harnesses
 
-Through experimenting with local LLMs, grew skeptical of anything under [at least]{.muted} 27B
+Experimenting with local LLMs, I’m skeptical of anything that isn’t [at least]{.muted} 27B
 
-Actively follow all LLMs: using them, reading papers, checking out RAG and [deep research](https://github.com/assafelovic/gpt-researcher) implementations, and experimenting hands-on. Have a solid high-level grasp of transformers, attention, training stages, hardware, and inference
+Actively follow all LLMs: using them, reading papers, checking out RAG and [deep research](https://github.com/assafelovic/gpt-researcher) implementations, and experimenting hands-on. Have a high-level grasp of transformers, attention, training stages, hardware, and inference
 
 :::
 
-Feel like I keep up with the changing world. COVID-19, for instance, sparked a deep dive into biology, vaccines, and clinical trials
+Feel like I keep up with a changing world. COVID, for instance, pushed me to dive into biology, vaccines, and clinical trials
 
-🗃️ Big on structuring data. Adored [Obsidian](https://obsidian.md/) since the early betas, and used [Zotero](https://www.zotero.org/), [Roam Research](https://roamresearch.com/), and [Notion](https://www.notion.com) before that (still a fan for team workflows)
+🗃️ Big on structuring data. Loved [Obsidian](https://obsidian.md/) since the early betas; before that, used [Zotero](https://www.zotero.org/), [Roam Research](https://roamresearch.com/), and [Notion](https://www.notion.com), which I still love and use for team workflows
 
-Have a soft spot for writing and editing. Write everything myself!
+Close to writing and editing. I write everything myself!
 
-Read ~50 fiction books, though no longer into them. Switched to non-fiction: work, philosophy, art, and popular science. Sometimes into tech, biology, and economics too, but prefer articles for those subjects
+I’ve read ~50 fiction books — not into fiction anymore. Switched to non-fiction: work, philosophy, art, and pop science. Sometimes tech, biology, and economics too, though I prefer articles for those
 
 🐧 Running [Fedora](https://en.wikipedia.org/wiki/Fedora_Linux) on desktop, [NixOS](https://nixos.org/) on the server
 
 [Did some photography](/en/photos), though more into the technical side and art theory
 
-Left Russia a few years ago. ✈️ Traveled to countries far apart and continue to actively explore the world
+Left Russia a few years ago. ✈️ Traveled to far-flung countries and keep actively exploring the world
 
-Sober by choice
+Substance-free by choice
 
 ## Blogging
 
 In 2020, started a [Telegram channel](https://t.me/TesNot) for occasional posts, and a [second one](https://t.me/Tes404) shortly after for daily reposts and unedited thoughts
 
-Plenty of gripes with X, Telegram, [and most platforms]{.muted}. That, combined with a desire to connect with the English-speaking global community and a craving for digital independence, led to building this website
+I have plenty of gripes with X, Telegram, [and most platforms]{.muted} + want to be closer to the global English-speaking community — all of that, along with a drive for independence, led me to this site
 
 ✏️ Used to write on practical topics: broad takes on how the world works and niche tech and financial analysis. For now, adapting and rewriting those older ideas for this blog
 
@@ -79,13 +79,13 @@ My last name is Iskra, which means “spark” in Russian
 
 According to the Russian [Wikipedia](https://ru.wikipedia.org/wiki/%D0%9C%D0%BE%D0%BB%D0%BD%D0%B8%D1%8F), lightning is an electric spark discharge in the atmosphere (in the English wiki, the spark connection is mentioned [elsewhere](https://en.wikipedia.org/wiki/Electric_spark))
 
-Lightning and electricity naturally lead to Nikola Tesla
+Lightning and electricity naturally point to Nikola Tesla
 
 And thus, He was born ⚡️
 
 <LightningGlow />
 
-[Not that I’m a fan of Nikola: he was a peculiar, speculative, and slightly eccentric person. And I’m even less of a fan of Tesla Inc., though they do make nice cars]{.muted}
+[Not that I’m a fan of Nikola himself: he was peculiar, prone to wild claims, and slightly mad. Even less of a fan of Tesla Inc., though the cars are nice]{.muted}
 
 Now Teslak is my handle everywhere
 
