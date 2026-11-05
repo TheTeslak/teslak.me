@@ -31,14 +31,18 @@ export function toggleDark(event: MouseEvent) {
     return
   }
 
-  const x = event.clientX
-  const y = event.clientY
+  const button = event.currentTarget as HTMLElement | null
+  const bounds = event.detail === 0 ? button?.getBoundingClientRect() : undefined
+  const x = bounds ? bounds.left + bounds.width / 2 : event.clientX
+  const y = bounds ? bounds.top + bounds.height / 2 : event.clientY
   const endRadius = Math.hypot(
     Math.max(x, innerWidth - x),
     Math.max(y, innerHeight - y),
   )
+  let becomingDark = false
   const transition = startViewTransition(async () => {
     isDark.value = !isDark.value
+    becomingDark = isDark.value
     await nextTick()
   })
   transition.ready
@@ -49,19 +53,24 @@ export function toggleDark(event: MouseEvent) {
       ]
       document.documentElement.animate(
         {
-          clipPath: isDark.value
+          clipPath: becomingDark
             ? [...clipPath].reverse()
             : clipPath,
         },
         {
           duration: 400,
-          easing: 'ease-out',
+          easing: 'ease-in-out',
           fill: 'forwards',
-          pseudoElement: isDark.value
+          pseudoElement: becomingDark
             ? '::view-transition-old(root)'
             : '::view-transition-new(root)',
         },
       )
+    })
+    // A later transition can legitimately interrupt this one.
+    .catch((error: unknown) => {
+      if (!(error instanceof DOMException && error.name === 'AbortError'))
+        console.error('Unable to animate theme change', error)
     })
 }
 

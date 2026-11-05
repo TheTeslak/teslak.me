@@ -27,6 +27,7 @@ nav-menu = Menu
 nav-close = Fermer
 
 action-toggle-theme = Changer le thème
+action-dark-theme = Thème sombre
 action-change-language = Changer de langue
 action-to-top = Revenir en haut
 action-back-to-all = Revenir à la liste

@@ -101,6 +101,7 @@ const localeGreetings: Record<string, { flag: string, greeting: string }> = {
           ? 'is-current cursor-default'
           : 'is-clickable cursor-pointer',
       ]"
+      :disabled="item.locale === currentLocale"
       :aria-current="item.locale === currentLocale ? 'true' : undefined"
       :aria-label="`${item.name} (${item.percentage}%)`"
       @click="changeLocale(item.locale)"
@@ -123,7 +124,10 @@ const localeGreetings: Record<string, { flag: string, greeting: string }> = {
       </div>
 
       <div class="flex items-center gap-3">
-        <span class="font-sans text-right opacity-70 group-hover:opacity-100 transition-opacity">
+        <span
+          class="font-sans font-normal text-right opacity-70 transition-opacity"
+          :class="{ 'group-hover:opacity-100': item.locale !== currentLocale }"
+        >
           {{ item.percentage }}%
         </span>
 
@@ -155,12 +159,14 @@ const localeGreetings: Record<string, { flag: string, greeting: string }> = {
               :stroke-dashoffset="CIRCUMFERENCE - (CIRCUMFERENCE * item.percentage) / 100"
             />
             <circle
-              v-if="item.locale !== currentLocale"
               cx="18"
               cy="18"
               r="4.5"
               fill="currentColor"
-              class="opacity-0 group-hover:opacity-80 transition-opacity duration-200 pointer-events-none"
+              class="transition-opacity duration-200 pointer-events-none"
+              :class="item.locale === currentLocale
+                ? item.locale === 'ru' ? 'current-russian-dot' : 'opacity-40'
+                : 'opacity-0 group-hover:opacity-80'"
             />
           </svg>
         </div>
@@ -215,5 +221,10 @@ const localeGreetings: Record<string, { flag: string, greeting: string }> = {
   outline: 2px solid currentColor;
   outline-offset: -2px;
   z-index: 1;
+}
+@media (hover: hover) {
+  .translation-stats:has(.is-clickable:hover) .current-russian-dot {
+    opacity: 0;
+  }
 }
 </style>

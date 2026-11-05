@@ -253,6 +253,7 @@ onBeforeUnmount(() => {
               :key="lang"
               class="mobile-lang-btn"
               :class="{ 'mobile-lang-btn-active': currentLocale === lang }"
+              :aria-current="currentLocale === lang ? 'true' : undefined"
               @click="changeMobileLang(lang)"
             >
               {{ lang.toUpperCase() }}
@@ -440,7 +441,7 @@ onBeforeUnmount(() => {
   display: flex;
   flex-wrap: nowrap;
   gap: 8px;
-  padding-top: 1.25rem;
+  padding-top: 2.3rem;
   border-top: 1px solid rgba(125, 125, 125, 0.12);
 }
 
@@ -453,31 +454,31 @@ onBeforeUnmount(() => {
   min-height: 44px;
   padding: 0 clamp(0px, 1.5vw, 14px);
   white-space: nowrap;
-  border: 1px solid rgba(125, 125, 125, 0.15);
-  border-radius: 8px;
-  background: none;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(125, 125, 125, 0.11);
   color: inherit;
   font-size: 0.85rem;
   font-weight: 500;
   letter-spacing: 0.04em;
   cursor: pointer;
-  opacity: 0.55;
-  transition:
-    opacity 0.15s ease,
-    background-color 0.15s ease,
-    border-color 0.15s ease;
+  transition: background-color 0.15s ease;
 }
 
-.mobile-lang-btn:hover {
-  opacity: 0.85;
-  background: rgba(125, 125, 125, 0.06);
+@media (hover: hover) {
+  .mobile-lang-btn:not(.mobile-lang-btn-active):hover {
+    background: rgba(125, 125, 125, 0.18);
+  }
 }
 
 .mobile-lang-btn-active {
-  opacity: 1;
   font-weight: 700;
-  border-color: rgba(125, 125, 125, 0.3);
-  background: rgba(125, 125, 125, 0.08);
+  background: rgba(125, 125, 125, 0.26);
+}
+
+.mobile-lang-btn:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
 }
 
 .mobile-menu-icons {
