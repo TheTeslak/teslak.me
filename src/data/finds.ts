@@ -23,7 +23,7 @@ export const finds: FindItem[] = [
     id: 'artcraft-apps',
     url: 'https://getartcraft.com/apps',
     title: 'ArtCraft Apps',
-    desc: 'An ambitious project building native open-source alternatives to Photoshop, Illustrator, CAD, and Office — early in development and seeking contributors',
+    desc: 'An ambitious project building native open-source alternatives to Photoshop, Illustrator, CAD, and Office — early in development',
   },
   {
     id: 'mona-ascii-cat-lore',
@@ -47,7 +47,6 @@ export const finds: FindItem[] = [
     id: 'cloudflare-drop',
     url: 'https://www.cloudflare.com/drop/',
     title: 'Cloudflare Drop',
-    desc: 'Drag and drop a folder of static files to get a live URL in seconds, no login required',
   },
   {
     id: 'llm-shoggoth-meme',

@@ -13,7 +13,7 @@ Hecho con **Vue + SSG**
 
 Le hice fork a [antfu](https://github.com/antfu/antfu.me) y le metí cientos de cambios: componentes nuevos, i18n, notas explicativas inspiradas en [LessWrong](https://www.lesswrong.com/posts/bJ2haLkcGeLtTWaD5/welcome-to-lesswrong), [a11y]{term="a11y" definition="Enfoque para crear sitios web accesibles para personas con discapacidades visuales, auditivas o motrices"}, [JSON-LD]{term="json-ld" definition="Marcado invisible para motores de búsqueda: Google muestra fichas enriquecidas en lugar de enlaces simples"}, [microformats2]{term="microformats2" definition="Clases HTML que ayudan a otros servicios a entender la estructura del sitio: autor, fecha y texto del artículo"}, ✨ mejoras visuales, otro índice, versión móvil y correcciones de bugs
 
-⚰️ Si [teslak.me](https://teslak.me/) algún día se cae, pásate por [teslak.pages.dev](https://teslak.pages.dev/) o [GitHub](https://github.com/TheTeslak/dg/tree/main/pages)
+⚰️ Si [teslak.me](https://teslak.me/) algún día se cae, pásate por [teslak.plasmatiq.workers.dev](https://teslak.plasmatiq.workers.dev/) o [GitHub](https://github.com/TheTeslak/dg/tree/main/pages)
 
 Las plataformas y creadores de sitios como [Substack](https://substack.com/) no me dan suficiente libertad: quiero hacer un montón de pequeñas cosas a mi manera, y eso hice aquí
 

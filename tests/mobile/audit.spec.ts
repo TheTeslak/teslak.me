@@ -116,22 +116,22 @@ test('copy actions are available on heading-free articles but not the homepage',
   await expect(page.locator('.mobile-action-bar')).toHaveCount(0)
 })
 
-test('gallery has adjacent slides, touch-visible navigation and preserves reading position', async ({ page }) => {
+test('gallery hides mobile arrows and preserves reading position', async ({ page }) => {
   await visit(page, '/en/photos')
-  const trigger = page.locator('.photos [role="button"]').nth(5)
+  const trigger = page.locator('.photos button.photo-hover').nth(5)
   await trigger.scrollIntoViewIfNeeded()
   await trigger.focus()
   const position = await page.evaluate(() => window.scrollY)
   await page.keyboard.press('Enter')
   await expect(page.locator('.pswp__item')).toHaveCount(3)
-  await expect(page.locator('.pswp__button--arrow--next')).toBeVisible()
-  await expect(page.locator('.pswp__button--arrow--prev')).toBeVisible()
+  await expect(page.locator('.pswp__button--arrow--next')).toBeHidden()
+  await expect(page.locator('.pswp__button--arrow--prev')).toBeHidden()
   await expect(page.locator('.pswp__counter')).toHaveCount(0)
   await expect(page.locator('.pswp__caption')).toHaveCount(0)
   await expect(page.locator('.pswp__button--zoom')).toBeHidden()
   const positionStatus = page.locator('.photo-lightbox-position')
   await expect(positionStatus).toHaveText(`6 / ${gallerySize}`)
-  await page.locator('.pswp__button--arrow--next').click()
+  await page.keyboard.press('ArrowRight')
   await expect(positionStatus).toHaveText(`7 / ${gallerySize}`)
   await page.keyboard.press('Escape')
   await expect(page.locator('.photo-lightbox-overlay')).toHaveCount(0)
@@ -143,7 +143,7 @@ test('gallery has adjacent slides, touch-visible navigation and preserves readin
 test('real touch drag tracks incoming content, snaps and resists collection boundaries', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'no-preference' })
   await visit(page, '/en/photos')
-  await page.locator('.photos [role="button"]').first().click()
+  await page.locator('.photos button.photo-hover').first().click()
   await expect(page.locator('.pswp__item')).toHaveCount(3)
   await expect(page.locator('.pswp')).toHaveAttribute('data-ready', 'true')
   const session = await page.context().newCDPSession(page)
@@ -185,7 +185,7 @@ test('desktop viewer fits images and supports zoom', async ({ browser }, testInf
     await visit(page, 'http://127.0.0.1:1112/en/photos')
     const portraitIndex = catalog.findIndex(photo => photo.file === 'high-rise.avif')
     expect(portraitIndex).toBeGreaterThanOrEqual(0)
-    await page.locator('.photos [role="button"]').nth(portraitIndex).click()
+    await page.locator('.photos button.photo-hover').nth(portraitIndex).click()
     const viewer = page.locator('.pswp')
     await expect(viewer).toHaveAttribute('data-ready', 'true')
     await expect(page.locator('.pswp__button--zoom')).toBeVisible()
@@ -201,7 +201,7 @@ test('desktop viewer fits images and supports zoom', async ({ browser }, testInf
     await expect(viewer).toHaveClass(/pswp--zoomed-in/)
     await expect(page.locator('.photo-viewer-zoom-out')).toBeVisible()
     await page.keyboard.press('Escape')
-    await page.locator('.photos [role="button"]').first().click()
+    await page.locator('.photos button.photo-hover').first().click()
     const landscape = page.locator('.pswp__item[aria-hidden="false"] img:not(.pswp__img--placeholder)')
     await expect(landscape).toHaveClass(/photo-viewer-loaded/)
     const landscapeBounds = (await landscape.boundingBox())!
@@ -227,7 +227,7 @@ test('progressive images retain identical geometry on desktop-sized viewports', 
   })
   try {
     await visit(page, '/en/photos')
-    await page.locator('.photos [role="button"]').first().click()
+    await page.locator('.photos button.photo-hover').first().click()
     const placeholder = page.locator('.pswp__item[aria-hidden="false"] .pswp__img--placeholder')
     await expect(placeholder).toBeVisible()
     const before = await placeholder.boundingBox()
@@ -295,7 +295,7 @@ test('clipboard denial produces truthful feedback without unhandled rejections',
 
 test('double tap, pinch, bounded pan, cancellation and vertical dismissal remain isolated', async ({ page }) => {
   await visit(page, '/en/photos')
-  await page.locator('.photos [role="button"]').first().click()
+  await page.locator('.photos button.photo-hover').first().click()
   const viewer = page.locator('.pswp')
   await expect(viewer).toHaveAttribute('data-ready', 'true')
   await page.touchscreen.tap(195, 400)

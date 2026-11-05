@@ -20,7 +20,7 @@
     "typecheck:node": "tsc --noEmit -p tsconfig.node.json",
     "photos": "tsx scripts/photos-manage.ts",
     "check:photos": "tsx scripts/photos-manage.ts --check",
-    "test:photos": "tsx --test scripts/photos.test.ts",
+    "test:photos": "tsx --test scripts/photos.test.ts scripts/photo-loading.test.ts",
     "test:mobile": "pnpm photos && tsx --test scripts/mobile-audit.test.ts && playwright test",
     "process-audio": "tsx scripts/process-audio.ts",
     "prepare": "simple-git-hooks"

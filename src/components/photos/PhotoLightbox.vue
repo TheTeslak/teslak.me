@@ -14,6 +14,7 @@ import {
 } from '~/logics/lightbox'
 import { useModal } from '~/logics/modal-manager'
 import { loadPhotoViewer } from '~/logics/photo-loading'
+import { getPhotoThumbBounds } from '~/logics/photo-thumb-bounds'
 import { configurePhotoLoading } from '~/logics/photo-viewer-loading'
 import 'photoswipe/style.css'
 
@@ -22,8 +23,24 @@ const lightboxEl = useTemplateRef<HTMLElement>('lightboxEl')
 const reducedMotion = usePreferredReducedMotion()
 const loadFailed = ref(false)
 const ready = ref(false)
+const closing = ref(false)
 const route = useRoute()
 let gallery: PhotoSwipe | undefined
+const requestedClosures = new WeakSet<PhotoSwipe>()
+
+function finishClosing(viewer: PhotoSwipe) {
+  return new Promise<void>((resolve) => {
+    viewer.on('destroy', () => resolve())
+    if (viewer.isDestroying)
+      return
+    requestedClosures.add(viewer)
+    // PhotoSwipe ignores close requests until its opening transition finishes.
+    if (viewer.opener.isOpening)
+      viewer.on('openingAnimationEnd', () => viewer.close())
+    else
+      viewer.close()
+  })
+}
 
 useModal({
   id: 'lightbox',
@@ -36,16 +53,30 @@ watch(() => route.path, closeLightbox)
 
 watch(isLightboxOpen, async (open, _, onCleanup) => {
   let cancelled = false
+  let initializationFailed = false
   let disposeLoading: (() => void) | undefined
   onCleanup(() => {
     cancelled = true
     disposeLoading?.()
   })
   if (!open) {
-    gallery?.close()
-    gallery = undefined
+    if (gallery) {
+      closing.value = true
+      const viewer = gallery
+      await finishClosing(viewer)
+      if (gallery === viewer)
+        gallery = undefined
+      if (!isLightboxOpen.value)
+        closing.value = false
+    }
     return
   }
+  if (gallery) {
+    await finishClosing(gallery)
+    if (cancelled)
+      return
+  }
+  closing.value = false
   loadFailed.value = false
   ready.value = false
   try {
@@ -54,9 +85,11 @@ watch(isLightboxOpen, async (open, _, onCleanup) => {
     await nextTick()
     if (cancelled || !lightboxEl.value)
       return
+    const viewerItems = lightboxItems.value
+    const viewerTrigger = lightboxTriggerEl.value
     const viewer = new Viewer({
       appendToEl: lightboxEl.value,
-      dataSource: lightboxItems.value.map(item => ({
+      dataSource: viewerItems.map(item => ({
         src: item.url,
         msrc: item.thumbnailUrl || item.url,
         width: item.width,
@@ -67,9 +100,9 @@ watch(isLightboxOpen, async (open, _, onCleanup) => {
       loop: false,
       bgOpacity: 0.94,
       counter: false,
-      showHideAnimationType: 'fade',
-      showAnimationDuration: reducedMotion.value === 'reduce' ? 0 : 180,
-      hideAnimationDuration: reducedMotion.value === 'reduce' ? 0 : 180,
+      showHideAnimationType: 'zoom',
+      showAnimationDuration: reducedMotion.value === 'reduce' ? 0 : 300,
+      hideAnimationDuration: reducedMotion.value === 'reduce' ? 0 : 300,
       zoomAnimationDuration: reducedMotion.value === 'reduce' ? 0 : 200,
       easing: 'cubic-bezier(0.25, 1, 0.5, 1)',
       // Fit the composition to the viewport; controls overlay rather than
@@ -101,10 +134,19 @@ watch(isLightboxOpen, async (open, _, onCleanup) => {
     })
     gallery = viewer
     disposeLoading = configurePhotoLoading(viewer)
+    viewer.addFilter('thumbBounds', (bounds, _item, index) => {
+      const item = viewerItems[index]
+      // PhotoSwipe accepts undefined here and falls back to a fade, although
+      // its filter's return type only declares Bounds.
+      return (item ? getPhotoThumbBounds(viewerTrigger, index, item, viewer.isDestroying ? 0.85 : undefined) : undefined) as NonNullable<typeof bounds>
+    })
     // Use cached thumbnails for incoming slides, not only the initial slide.
-    viewer.addFilter('placeholderSrc', (_, content) => lightboxItems.value[content.index]?.thumbnailUrl || false)
+    viewer.addFilter('placeholderSrc', (_, content) => {
+      const item = viewerItems[content.index]
+      return item?.thumbnailUrl || item?.url || false
+    })
     viewer.on('contentAppend', ({ content }) => {
-      const classes = lightboxItems.value[content.index]?.classes?.split(/\s+/).filter(Boolean) ?? []
+      const classes = viewerItems[content.index]?.classes?.split(/\s+/).filter(Boolean) ?? []
       content.element?.classList.add(...classes)
       content.placeholder?.element?.classList.add(...classes)
     })
@@ -114,7 +156,13 @@ watch(isLightboxOpen, async (open, _, onCleanup) => {
     })
     viewer.on('change', () => setPhotoIndex(viewer.currIndex))
     viewer.on('openingAnimationEnd', () => viewer.element?.setAttribute('data-ready', 'true'))
-    viewer.on('close', closeLightbox)
+    viewer.on('close', () => {
+      const item = viewerItems[viewer.currIndex]
+      const canReturn = item && getPhotoThumbBounds(viewerTrigger, viewer.currIndex, item, 0.85)
+      viewer.options.hideAnimationDuration = reducedMotion.value === 'reduce' ? 0 : canReturn ? 300 : 200
+      if (!initializationFailed && !requestedClosures.has(viewer))
+        closeLightbox()
+    })
     viewer.on('destroy', () => {
       if (gallery === viewer)
         gallery = undefined
@@ -125,7 +173,11 @@ watch(isLightboxOpen, async (open, _, onCleanup) => {
     ready.value = true
   }
   catch (error) {
+    initializationFailed = true
     disposeLoading?.()
+    gallery?.destroy()
+    gallery?.element?.remove()
+    gallery = undefined
     if (!cancelled) {
       loadFailed.value = true
       console.error('Unable to open image viewer', error)
@@ -135,7 +187,7 @@ watch(isLightboxOpen, async (open, _, onCleanup) => {
 
 watch(reducedMotion, (preference) => {
   if (gallery) {
-    gallery.options.hideAnimationDuration = preference === 'reduce' ? 0 : 180
+    gallery.options.hideAnimationDuration = preference === 'reduce' ? 0 : 300
     gallery.options.zoomAnimationDuration = preference === 'reduce' ? 0 : 200
   }
 })
@@ -153,28 +205,28 @@ onBeforeUnmount(() => {
 
 <template>
   <Teleport to="body">
-    <Transition name="modal-fade">
-      <div
-        v-if="isLightboxOpen"
-        ref="lightboxEl"
-        class="photo-lightbox-overlay"
-        data-modal-layer
-        :data-photo-index="lightboxIndex"
-        role="dialog"
-        aria-modal="true"
-        :aria-label="$t('a11y-image-preview')"
-        tabindex="-1"
-      >
-        <span class="photo-lightbox-position sr-only" role="status" aria-live="polite" aria-atomic="true">{{ lightboxIndex + 1 }} / {{ lightboxItems.length }}</span>
-        <div v-if="!ready" class="photo-lightbox-loading">
-          <a v-if="loadFailed" :href="currentLightboxItem?.url" target="_blank" rel="noopener noreferrer">{{ $t('image-open-original') }}</a>
-          <span v-else role="status">{{ $t('image-loading') }}</span>
-          <button type="button" @click="closeLightbox">
-            {{ $t('nav-close') }}
-          </button>
-        </div>
+    <div
+      v-if="isLightboxOpen || closing"
+      ref="lightboxEl"
+      class="photo-lightbox-overlay"
+      data-modal-layer
+      :class="{ 'is-closing': !isLightboxOpen }"
+      :aria-hidden="!isLightboxOpen || undefined"
+      :data-photo-index="lightboxIndex"
+      role="dialog"
+      aria-modal="true"
+      :aria-label="$t('a11y-image-preview')"
+      tabindex="-1"
+    >
+      <span class="photo-lightbox-position sr-only" role="status" aria-live="polite" aria-atomic="true">{{ lightboxIndex + 1 }} / {{ lightboxItems.length }}</span>
+      <div v-if="!ready && isLightboxOpen" class="photo-lightbox-loading" :class="{ 'has-error': loadFailed }">
+        <a v-if="loadFailed" :href="currentLightboxItem?.url" target="_blank" rel="noopener noreferrer">{{ $t('image-open-original') }}</a>
+        <span v-else role="status">{{ $t('image-loading') }}</span>
+        <button type="button" @click="closeLightbox">
+          {{ $t('nav-close') }}
+        </button>
       </div>
-    </Transition>
+    </div>
   </Teleport>
 </template>
 
@@ -186,6 +238,10 @@ onBeforeUnmount(() => {
   overscroll-behavior: contain;
 }
 
+.photo-lightbox-overlay.is-closing {
+  pointer-events: none;
+}
+
 .photo-lightbox-loading {
   position: absolute;
   inset: 0;
@@ -193,8 +249,11 @@ onBeforeUnmount(() => {
   gap: 1rem;
   align-items: center;
   justify-content: center;
-  background: color-mix(in srgb, var(--c-bg) 94%, transparent);
   color: inherit;
+}
+
+.photo-lightbox-loading.has-error {
+  background: color-mix(in srgb, var(--c-bg) 94%, transparent);
 }
 
 .photo-lightbox-loading button {
@@ -274,6 +333,12 @@ onBeforeUnmount(() => {
 
 .photo-lightbox-overlay .pswp__button--arrow:disabled {
   display: none;
+}
+
+@media (max-width: 767px) {
+  .photo-lightbox-overlay .pswp__button--arrow {
+    display: none;
+  }
 }
 
 .photo-lightbox-overlay .pswp__top-bar {

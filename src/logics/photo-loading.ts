@@ -49,18 +49,16 @@ const jobs = new Map<string, PhotoJob>()
 const maxSpeculativeLoads = 2
 let activeLoads = 0
 
-function finishJob(job: PhotoJob) {
-  if (jobs.get(job.url) !== job)
+function finishTask(job: PhotoJob, task: PhotoTask) {
+  if (!job.tasks.delete(task))
     return
-  // A consumer may have joined just before the existing image finished.
-  for (const task of job.tasks) {
-    if (!task.started)
-      startTask(job, task)
-    task.cleanup()
+  task.cleanup()
+  if (!job.tasks.size && jobs.get(job.url) === job) {
+    jobs.delete(job.url)
+    if (job.active)
+      activeLoads--
+    queueMicrotask(drainQueue)
   }
-  jobs.delete(job.url)
-  activeLoads--
-  queueMicrotask(drainQueue)
 }
 
 function startTask(job: PhotoJob, task: PhotoTask) {
@@ -69,7 +67,7 @@ function startTask(job: PhotoJob, task: PhotoTask) {
   task.started = true
   task.image.fetchPriority = 'low'
   task.image.decoding = 'async'
-  const complete = () => queueMicrotask(() => finishJob(job))
+  const complete = () => queueMicrotask(() => finishTask(job, task))
   task.image.addEventListener('load', complete, { once: true })
   task.image.addEventListener('error', complete, { once: true })
   task.cleanup = () => {
@@ -114,9 +112,7 @@ export function queuePhotoPrefetch(url: string, image: HTMLImageElement, start: 
   queueMicrotask(drainQueue)
   return () => {
     if (!task.started) {
-      job.tasks.delete(task)
-      if (!job.active && !job.tasks.size && jobs.get(url) === job)
-        jobs.delete(url)
+      finishTask(job, task)
     }
   }
 }
@@ -130,8 +126,6 @@ export function prioritizePhoto(url: string) {
     if (task.started)
       task.image.fetchPriority = 'high'
     else
-      job.tasks.delete(task)
+      finishTask(job, task)
   }
-  if (!job.active)
-    jobs.delete(url)
 }
