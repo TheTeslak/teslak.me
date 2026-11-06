@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { localeConfig, supportedLocales } from '~/locales/config'
 import { getLocaleFromPath, isSupportedLocale, setPathLocale } from '~/logics/i18n-path'
@@ -10,6 +10,40 @@ const router = useRouter()
 const route = useRoute()
 
 const currentLocale = computed(() => getLocaleFromPath(route.path))
+const needsFlagFont = ref(false)
+
+onMounted(() => {
+  // Based on country-flag-emoji-polyfill (MIT): compare color emoji with text rendering.
+  try {
+    const canvas = document.createElement('canvas')
+    canvas.width = canvas.height = 1
+    const context = canvas.getContext('2d', { willReadFrequently: true })
+    if (!context)
+      return
+
+    context.textBaseline = 'top'
+    context.font = '100px "Twemoji Mozilla", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif'
+    context.scale(0.01, 0.01)
+
+    function supportsColorEmoji(value: string) {
+      const ctx = context!
+      const render = (color: string) => {
+        ctx.clearRect(0, 0, 100, 100)
+        ctx.fillStyle = color
+        ctx.fillText(value, 0, 0)
+        return Array.from(ctx.getImageData(0, 0, 1, 1).data).join(',')
+      }
+      const white = render('#fff')
+      const black = render('#000')
+      return black === white && !black.startsWith('0,0,0,')
+    }
+
+    needsFlagFont.value = supportsColorEmoji('😊') && !supportsColorEmoji('🇨🇭')
+  }
+  catch {
+    // Canvas can be unavailable or restricted; retain the system rendering.
+  }
+})
 
 async function changeLocale(locale: string) {
   if (!isSupportedLocale(locale) || locale === currentLocale.value)
@@ -75,7 +109,7 @@ const stats = computed(() => {
 const CIRCUMFERENCE = 2 * Math.PI * 16
 
 const localeGreetings: Record<string, { flag: string, greeting: string }> = {
-  en: { flag: '🇬🇧', greeting: 'Hello!' },
+  en: { flag: '🇺🇸', greeting: 'Hello!' },
   ru: { flag: '🇷🇺', greeting: 'Привет!' },
   es: { flag: '🇪🇸', greeting: '¡Hola!' },
   pt: { flag: '🇧🇷', greeting: 'Olá!' },
@@ -118,7 +152,7 @@ const localeGreetings: Record<string, { flag: string, greeting: string }> = {
           class="translation-greeting font-sans font-medium whitespace-nowrap flex items-center gap-1.5"
           aria-hidden="true"
         >
-          <span class="text-base leading-none">{{ localeGreetings[item.locale].flag }}</span>
+          <span class="text-base leading-none" :class="{ 'flag-fallback': needsFlagFont }">{{ localeGreetings[item.locale].flag }}</span>
           <span>{{ localeGreetings[item.locale].greeting }}</span>
         </span>
       </div>
@@ -165,8 +199,8 @@ const localeGreetings: Record<string, { flag: string, greeting: string }> = {
               fill="currentColor"
               class="transition-opacity duration-200 pointer-events-none"
               :class="item.locale === currentLocale
-                ? item.locale === 'ru' ? 'current-russian-dot' : 'opacity-40'
-                : 'opacity-0 group-hover:opacity-80'"
+                ? 'current-dot'
+                : 'opacity-0 group-hover:opacity-100'"
             />
           </svg>
         </div>
@@ -176,6 +210,17 @@ const localeGreetings: Record<string, { flag: string, greeting: string }> = {
 </template>
 
 <style scoped>
+@font-face {
+  font-family: 'Twemoji Country Flags';
+  src: url('../assets/fonts/TwemojiCountryFlags.woff2') format('woff2');
+  font-display: swap;
+  unicode-range:
+    U+1F1E6-1F1FF, U+1F3F4, U+E0062-E0063, U+E0065, U+E0067, U+E006C, U+E006E, U+E0073-E0074, U+E0077, U+E007F;
+}
+
+.flag-fallback {
+  font-family: 'Twemoji Country Flags', sans-serif;
+}
 .translation-stats {
   border-radius: 0.5rem;
   overflow: hidden;
@@ -223,7 +268,7 @@ const localeGreetings: Record<string, { flag: string, greeting: string }> = {
   z-index: 1;
 }
 @media (hover: hover) {
-  .translation-stats:has(.is-clickable:hover) .current-russian-dot {
+  .translation-stats:has(.is-clickable:hover) .current-dot {
     opacity: 0;
   }
 }
