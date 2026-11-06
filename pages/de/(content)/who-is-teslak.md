@@ -8,8 +8,6 @@ art: random
 open: true
 ---
 
-[Es ist nicht leicht zu entscheiden, welche Eigenschaften und Hobbys man auflisten soll. Die Zeit schien mir ein treffender Maßstab: das, wofür ich mich interessiere und womit ich mich seit Jahren fast täglich beschäftige]{.muted}
-
 Verfechter von Tiefe, 🔍 Recherche, der Arbeit mit Daten und Best Practices
 In dieser Hinsicht fühle ich mich [Gwern](https://gwern.net/) besonders verbunden
 
@@ -47,21 +45,23 @@ Verfolge aktiv alle LLMs: nutze sie, lese Papers, schaue mir RAG- und [Deep-Res
 
 :::
 
-Habe das Gefühl, mit der sich verändernden Welt Schritt zu halten. Covid-19 zum Beispiel brachte mich dazu, tief in Biologie, Impfstoffe und klinische Studien einzutauchen
+🐧 Nutze [Fedora](https://en.wikipedia.org/wiki/Fedora_Linux) auf dem Desktop, auf dem Server läuft [NixOS](https://nixos.org/)
 
 🗃️ Strukturiere gern Daten. Liebe [Obsidian](https://obsidian.md/) seit den ersten Betas; davor [Zotero](https://www.zotero.org/), [Roam Research](https://roamresearch.com/) und [Notion](https://www.notion.com) genutzt, das ich für Teamarbeit immer noch mag
 
-Schreiben und Redigieren liegen mir. Schreibe alles selbst!
+Habe das Gefühl, mit der sich verändernden Welt Schritt zu halten. Covid-19 zum Beispiel brachte mich dazu, tief in Biologie, Impfstoffe und klinische Studien einzutauchen
+
+Habe ein Faible für Bioinformatik
 
 Rund 50 Romane gelesen, mittlerweile reizen sie mich nicht mehr. Auf Sachbücher umgestiegen: über Arbeit, Philosophie, Kunst und Populärwissenschaft. Manchmal auch über Technologie, Biologie und Wirtschaft, dort sind mir Artikel aber lieber
 
-🐧 Nutze [Fedora](https://en.wikipedia.org/wiki/Fedora_Linux) auf dem Desktop, auf dem Server läuft [NixOS](https://nixos.org/)
-
 [Habe fotografiert](/de/photos), interessiere mich aber mehr für die technische Seite und Kunsttheorie
+
+Schreiben und Redigieren liegen mir. Schreibe alles selbst!
 
 Vor einigen Jahren Russland verlassen. ✈️ Weit voneinander entfernte Länder bereist und weiter aktiv dabei, die Welt zu erkunden
 
-Bewusst rauschmittelfrei
+Trinke nicht, rauche nicht, nehme keine Drogen
 
 ## Das Bloggen
 
@@ -80,8 +80,6 @@ Mein Nachname ist Iskra („Funke“ auf Russisch)
 Laut [Wikipedia](https://ru.wikipedia.org/wiki/%D0%9C%D0%BE%D0%BB%D0%BD%D0%B8%D1%8F) ist ein Blitz eine elektrische Funkenentladung in der Atmosphäre (in der englischen Wikipedia wird die Verbindung zum Funken [an anderer Stelle](https://en.wikipedia.org/wiki/Electric_spark) erwähnt)
 
 Blitze und Elektrizität werden mit Nikola Tesla assoziiert
-
-Und so entstand Teslak ⚡️
 
 <LightningGlow />
 

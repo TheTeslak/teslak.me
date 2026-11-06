@@ -32,7 +32,7 @@ J’ai [photographié](/fr/photos) toutes sortes de choses
   <a href="https://smp19.simplex.im/a#ZZe8llIR9yKEFjb_Jn6TAM0dyHYZ3dVusDDJVbf-HNc" target="_blank"><span op75 i-simple-icons-simplex /> SimpleX</a>
 </p>
 
-<span font-mono>Teslak<span i-carbon-at/>proton.me</span> <Popover trigger="GPG?" label="Pourquoi pas de GPG ?"><p>L’e-mail n’est pas sûr par nature. Pour les échanges privés : Signal [ou SimpleX]{.muted}</p><p>GPG est un outil de chiffrement d’e-mails dont les clés sont souvent partagées sur les blogs tech par tradition</p></Popover>
+<span font-mono>Teslak<span i-carbon-at/>proton.me</span> <Popover trigger="GPG?" label="Pourquoi pas de GPG ?"><p>GPG est un outil de chiffrement d’e-mails dont les clés sont souvent partagées sur les blogs tech par tradition</p><p>L’e-mail n’est pas sûr par nature. Pour les échanges privés : Signal [ou SimpleX]{.muted}</p></Popover>
 
 ::: ascii capybara
 

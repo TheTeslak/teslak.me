@@ -32,7 +32,7 @@ Compartilho [achados](/pt/finds)
   <a href="https://smp19.simplex.im/a#ZZe8llIR9yKEFjb_Jn6TAM0dyHYZ3dVusDDJVbf-HNc" target="_blank"><span op75 i-simple-icons-simplex /> SimpleX</a>
 </p>
 
-<span font-mono>Teslak<span i-carbon-at/>proton.me</span> <Popover trigger="GPG?" label="Por que não GPG?"><p>O e-mail é inerentemente inseguro. Para mensagens privadas: Signal [ou SimpleX]{.muted}</p><p>GPG é uma ferramenta para criptografar e-mails cujas chaves costumam ser compartilhadas em blogs de tecnologia por tradição</p></Popover>
+<span font-mono>Teslak<span i-carbon-at/>proton.me</span> <Popover trigger="GPG?" label="Por que não GPG?"><p>GPG é uma ferramenta para criptografar e-mails cujas chaves costumam ser compartilhadas em blogs de tecnologia por tradição</p><p>O e-mail é inerentemente inseguro. Para mensagens privadas: Signal [ou SimpleX]{.muted}</p></Popover>
 
 ::: ascii capybara
 

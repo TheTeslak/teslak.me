@@ -8,8 +8,6 @@ art: random
 open: true
 ---
 
-[Hard to pick which traits and interests to list. Time felt like a fair filter: what I’ve cared about and done almost daily for years]{.muted}
-
 Into depth, 🔍 research, working with data, and best practices
 I feel a strong kinship with [Gwern](https://gwern.net/) here
 
@@ -47,21 +45,23 @@ Actively follow all LLMs: using them, reading papers, checking out RAG and [dee
 
 :::
 
-Feel like I keep up with a changing world. COVID, for instance, pushed me to dive into biology, vaccines, and clinical trials
+🐧 Running [Fedora](https://en.wikipedia.org/wiki/Fedora_Linux) on desktop, [NixOS](https://nixos.org/) on the server
 
 🗃️ Big on structuring data. Loved [Obsidian](https://obsidian.md/) since the early betas; before that, used [Zotero](https://www.zotero.org/), [Roam Research](https://roamresearch.com/), and [Notion](https://www.notion.com), which I still love and use for team workflows
 
-Close to writing and editing. I write everything myself!
+Feel like I keep up with a changing world. COVID, for instance, pushed me to dive into biology, vaccines, and clinical trials
+
+Have a soft spot for bioinformatics
 
 I’ve read ~50 fiction books — not into fiction anymore. Switched to non-fiction: work, philosophy, art, and pop science. Sometimes tech, biology, and economics too, though I prefer articles for those
 
-🐧 Running [Fedora](https://en.wikipedia.org/wiki/Fedora_Linux) on desktop, [NixOS](https://nixos.org/) on the server
-
 [Did some photography](/en/photos), though more into the technical side and art theory
+
+Into writing and editing. I write everything myself!
 
 Left Russia a few years ago. ✈️ Traveled to far-flung countries and keep actively exploring the world
 
-Substance-free by choice
+Don’t drink, smoke, or do drugs
 
 ## Blogging
 
@@ -80,8 +80,6 @@ My last name is Iskra, which means “spark” in Russian
 According to the Russian [Wikipedia](https://ru.wikipedia.org/wiki/%D0%9C%D0%BE%D0%BB%D0%BD%D0%B8%D1%8F), lightning is an electric spark discharge in the atmosphere (in the English wiki, the spark connection is mentioned [elsewhere](https://en.wikipedia.org/wiki/Electric_spark))
 
 Lightning and electricity naturally point to Nikola Tesla
-
-And thus, He was born ⚡️
 
 <LightningGlow />
 

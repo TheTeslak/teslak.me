@@ -32,7 +32,7 @@ Habe [alles Mögliche fotografiert](/de/photos)
   <a href="https://smp19.simplex.im/a#ZZe8llIR9yKEFjb_Jn6TAM0dyHYZ3dVusDDJVbf-HNc" target="_blank"><span op75 i-simple-icons-simplex /> SimpleX</a>
 </p>
 
-<span font-mono>Teslak<span i-carbon-at/>proton.me</span> <Popover trigger="GPG?" label="Warum kein GPG?"><p>E-Mails sind grundsätzlich unsicher. Für private Nachrichten: Signal [oder SimpleX]{.muted}</p><p>GPG ist ein Werkzeug zur E-Mail-Verschlüsselung, dessen Schlüssel auf Tech-Blogs traditionell geteilt werden</p></Popover>
+<span font-mono>Teslak<span i-carbon-at/>proton.me</span> <Popover trigger="GPG?" label="Warum kein GPG?"><p>GPG ist ein Werkzeug zur E-Mail-Verschlüsselung, dessen Schlüssel auf Tech-Blogs traditionell geteilt werden</p><p>E-Mails sind grundsätzlich unsicher. Für private Nachrichten: Signal [oder SimpleX]{.muted}</p></Popover>
 
 ::: ascii capybara
 

@@ -8,8 +8,6 @@ art: random
 open: true
 ---
 
-[Il n’est pas facile de déterminer quelles qualités et quelles passions mentionner. Le temps m’a paru être la bonne mesure : ce qui m’intéresse et ce à quoi je me consacre depuis des années, presque quotidiennement]{.muted}
-
 Adepte de la profondeur, 🔍 de la recherche, du travail sur les données et des meilleures pratiques
 À cet égard, je me sens particulièrement proche de [Gwern](https://gwern.net/)
 
@@ -47,21 +45,23 @@ Je suis activement tous les LLM : utilisation au quotidien, lecture de *paper
 
 :::
 
-J’ai le sentiment de rester en phase avec un monde qui change. Le Covid, par exemple, m’a poussé à creuser la biologie, les vaccins et les essais cliniques
+🐧 Je suis sous [Fedora](https://en.wikipedia.org/wiki/Fedora_Linux), mon serveur tourne sous [NixOS](https://nixos.org/)
 
 🗃️ Je structure les données. J’adore [Obsidian](https://obsidian.md/) depuis ses premières bêtas ; avant cela, j’utilisais [Zotero](https://www.zotero.org/), [Roam Research](https://roamresearch.com/) et [Notion](https://www.notion.com), que j’apprécie toujours et que j’utilise pour le travail en équipe
 
-J’ai un vrai goût pour l’écriture et l’édition. J’écris tout moi-même !
+J’ai le sentiment de rester en phase avec un monde qui change. Le Covid, par exemple, m’a poussé à creuser la biologie, les vaccins et les essais cliniques
+
+J’ai un faible pour la bioinformatique
 
 J’ai lu environ 50 livres de fiction, mais ils ne m’attirent plus aujourd’hui. Je suis passé à la non-fiction : travail, philosophie, art et vulgarisation scientifique. Parfois aussi technologie, biologie et économie, mais sur ces sujets, je préfère les articles
 
-🐧 Je suis sous [Fedora](https://en.wikipedia.org/wiki/Fedora_Linux), mon serveur tourne sous [NixOS](https://nixos.org/)
-
 [J’ai fait de la photo](/fr/photos), mais je m’intéresse davantage à l’aspect technique et à la théorie de l’art
+
+J’ai un vrai goût pour l’écriture et l’édition. J’écris tout moi-même !
 
 J’ai quitté la Russie il y a quelques années. ✈️ J’ai voyagé dans des pays très éloignés les uns des autres et continue d’explorer activement le monde
 
-Sobre par choix
+Je ne bois pas, ne fume pas et ne prends rien
 
 ## Blogging
 
@@ -80,8 +80,6 @@ Mon nom de famille est Iskra (« étincelle » en russe)
 Selon [Wikipédia](https://ru.wikipedia.org/wiki/%D0%9C%D0%BE%D0%BB%D0%BD%D0%B8%D1%8F), la foudre est une décharge électrique sous forme d’étincelle dans l’atmosphère (dans la Wikipédia en anglais, le terme « spark » est mentionné [ailleurs](https://en.wikipedia.org/wiki/Electric_spark))
 
 La foudre et l’électricité sont associées à Nikola Tesla
-
-C’est ainsi qu’est né Teslak ⚡️
 
 <LightningGlow />
 

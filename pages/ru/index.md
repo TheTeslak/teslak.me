@@ -33,7 +33,7 @@ display: Теслак увлекается технологиями, нейро�
   <a href="https://smp19.simplex.im/a#ZZe8llIR9yKEFjb_Jn6TAM0dyHYZ3dVusDDJVbf-HNc" target="_blank"><span op75 i-simple-icons-simplex /> SimpleX</a>
 </p>
 
-<span font-mono>Teslak<span i-carbon-at/>proton.me</span> <Popover trigger="GPG?" label="Почему без GPG?"><p>Почта небезопасна по своей сути. Для приватного общения — Signal [или SimpleX]{.muted}</p><p>GPG — инструмент для шифрования писем, чьи ключи в техносреде любят публиковать по традиции</p></Popover>
+<span font-mono>Teslak<span i-carbon-at/>proton.me</span> <Popover trigger="GPG?" label="Почему без GPG?"><p>GPG — инструмент для шифрования писем, чьи ключи в техносреде любят публиковать по традиции</p><p>Почта небезопасна по своей сути. Для приватного общения — Signal [или SimpleX]{.muted}</p></Popover>
 
 ::: ascii capybara
 

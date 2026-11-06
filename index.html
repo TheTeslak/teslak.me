@@ -28,13 +28,18 @@
     <script>
       ;(function () {
         const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
-        const setting = localStorage.getItem('vueuse-color-scheme') || 'auto'
-        if (setting === 'dark' || (prefersDark && setting !== 'light'))
+        let setting = 'auto'
+        try {
+          const stored = localStorage.getItem('vueuse-color-scheme')
+          if (stored === 'light' || stored === 'dark' || stored === 'auto') setting = stored
+          else if (stored !== null) localStorage.removeItem('vueuse-color-scheme')
+        } catch {}
+        if (setting === 'dark' || (prefersDark && setting === 'auto'))
           document.documentElement.classList.toggle('dark', true)
       })()
     </script>
   </head>
-  <body class="font-sans text-gray-700 dark:text-gray-200 relative">
+  <body class="font-sans relative">
     <div id="app"></div>
     <script type="module" src="/src/main.ts"></script>
   </body>

@@ -196,8 +196,8 @@ async function changeLang(lang: string) {
   right: 0;
   min-width: 8.5rem;
   padding: 0.25rem;
-  background: var(--c-bg);
-  border: 1px solid rgba(125, 125, 125, 0.15);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
   border-radius: 12px;
   box-shadow:
     0 2px 4px rgba(0, 0, 0, 0.02),
@@ -209,7 +209,6 @@ async function changeLang(lang: string) {
 }
 
 html.dark .lang-dropdown {
-  border-color: rgba(125, 125, 125, 0.2);
   box-shadow:
     0 2px 4px rgba(0, 0, 0, 0.25),
     0 8px 16px rgba(0, 0, 0, 0.35),
@@ -222,7 +221,7 @@ html.dark .lang-dropdown {
   left: 0.25rem;
   right: 0.25rem;
   top: 0;
-  background: rgba(125, 125, 125, 0.09);
+  background: var(--color-hover);
   border-radius: 8px;
   pointer-events: none;
   opacity: 0;
@@ -230,10 +229,6 @@ html.dark .lang-dropdown {
     opacity 0.12s ease,
     transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1),
     height 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-
-html.dark .lang-hover-bg {
-  background: rgba(125, 125, 125, 0.14);
 }
 
 .lang-hover-bg-visible {

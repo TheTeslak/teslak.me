@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { isDark } from '../logics'
+import { nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { isDark, isThemeTransitioning } from '../logics/theme'
 
 defineProps<{
   conversation?: 'none'
@@ -56,27 +57,62 @@ function loadTwitterWidgets() {
 }
 
 const tweet = ref<HTMLElement>()
+const widgetVersion = ref(0)
+const reservedHeight = ref(0)
+let mounted = false
+let requestedTheme = isDark.value
+let generation = 0
 
-onMounted(async () => {
+async function renderWidget() {
+  const current = ++generation
   try {
     await loadTwitterWidgets()
-    window.twttr?.widgets?.load(tweet.value)
+    if (!mounted || current !== generation)
+      return
+    await window.twttr?.widgets?.load(tweet.value)
+    if (mounted && current === generation)
+      reservedHeight.value = 0
   }
   catch (error) {
+    if (current === generation)
+      reservedHeight.value = 0
     console.error('[Tweet] Failed to load Twitter widgets:', error)
   }
+}
+
+onMounted(() => {
+  mounted = true
+  void renderWidget()
+})
+
+watch([isDark, isThemeTransitioning], async ([dark, transitioning]) => {
+  if (!mounted || transitioning || dark === requestedTheme)
+    return
+  requestedTheme = dark
+  reservedHeight.value = tweet.value?.getBoundingClientRect().height ?? 0
+  widgetVersion.value++
+  await nextTick()
+  if (mounted)
+    void renderWidget()
+})
+
+onBeforeUnmount(() => {
+  mounted = false
+  generation++
 })
 </script>
 
 <template>
-  <div ref="tweet" class="flex items-center justify-center">
-    <blockquote
-      class="twitter-tweet"
-      :data-theme="isDark ? 'dark' : 'light'"
-      :data-conversation="conversation ? conversation : undefined"
-    >
-      <slot />
-    </blockquote>
+  <div ref="tweet" class="flex items-center justify-center" :style="{ minHeight: reservedHeight ? `${reservedHeight}px` : undefined }">
+    <div :key="widgetVersion">
+      <blockquote
+        class="twitter-tweet"
+        :data-theme="isDark ? 'dark' : 'light'"
+        :data-conversation="conversation ? conversation : undefined"
+      >
+        <slot />
+      </blockquote>
+    </div>
   </div>
 </template>
 

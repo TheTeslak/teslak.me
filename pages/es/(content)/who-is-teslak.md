@@ -8,8 +8,6 @@ art: random
 open: true
 ---
 
-[No es fácil determinar qué cualidades y pasatiempos incluir. El tiempo me pareció un criterio justo: aquello que me interesa y a lo que me dedico desde hace años casi a diario]{.muted}
-
 Partidario de la profundidad, 🔍 la investigación, el trabajo con datos y las mejores prácticas
 En este sentido, siento una gran afinidad con [Gwern](https://gwern.net/)
 
@@ -47,21 +45,23 @@ Sigo activamente todos los LLM: los uso, leo papers, exploro implementaciones 
 
 :::
 
-Siento que sigo el ritmo de un mundo en constante cambio. La covid-19, por ejemplo, me llevó a profundizar en biología, vacunas y ensayos clínicos
+🐧 Uso [Fedora](https://en.wikipedia.org/wiki/Fedora_Linux) y mi servidor corre [NixOS](https://nixos.org/)
 
 🗃️ Estructuro datos. Adoro [Obsidian](https://obsidian.md/) desde sus primeras betas; antes usaba [Zotero](https://www.zotero.org/), [Roam Research](https://roamresearch.com/) y [Notion](https://www.notion.com), que todavía me encanta y uso en el trabajo en equipo
 
-Me apasionan la redacción y la edición. ¡Todo lo escribo yo mismo!
+Siento que sigo el ritmo de un mundo en constante cambio. La covid-19, por ejemplo, me llevó a profundizar en biología, vacunas y ensayos clínicos
+
+Siento debilidad por la bioinformática
 
 He leído unos 50 libros de ficción, pero ahora ya no me gustan. Pasé a la no ficción: sobre trabajo, filosofía, arte y divulgación científica. A veces sobre tecnología, biología y economía, pero en estos campos prefiero los artículos
 
-🐧 Uso [Fedora](https://en.wikipedia.org/wiki/Fedora_Linux) y mi servidor corre [NixOS](https://nixos.org/)
-
 [Hacía fotografía](/es/photos), pero me interesa más la parte técnica y la teoría del arte
+
+Me apasionan la redacción y la edición. ¡Todo lo escribo yo mismo!
 
 Hace unos años que me fui de Rusia. ✈️ He estado en países muy lejanos entre sí y continúo explorando el mundo activamente
 
-Sobrio por elección
+No bebo, no fumo ni consumo drogas
 
 ## El blog
 
@@ -80,8 +80,6 @@ Mi apellido es Iskra («chispa» en ruso)
 Según [Wikipedia](https://ru.wikipedia.org/wiki/%D0%9C%D0%BE%D0%BB%D0%BD%D0%B8%D1%8F), el rayo es una descarga eléctrica en forma de chispa en la atmósfera (en la Wikipedia en inglés, la palabra «chispa» se menciona [en otro lugar](https://en.wikipedia.org/wiki/Electric_spark))
 
 Los rayos y la electricidad se asocian con Nikola Tesla
-
-Y así nació Teslak ⚡️
 
 <LightningGlow />
 

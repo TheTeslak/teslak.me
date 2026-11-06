@@ -1,12 +1,12 @@
 import dayjs from 'dayjs'
-import { nextTick } from 'vue'
 import { defaultLocale, getDateLocale, isSupportedLocale, localeConfig } from '../locales/config'
 
 export * from './lightbox'
 export * from './modal-manager'
 export * from './post-visibility'
 
-export const isDark = useDark()
+export { isDark } from './theme'
+export { toggleDark } from './theme-transition'
 
 export const onlyLanguage = useLocalStorage('teslak-only-language', false)
 
@@ -14,64 +14,6 @@ export const galleryView = useLocalStorage<'cover' | 'contain'>('teslak-gallery-
 
 export function toggleGalleryView() {
   galleryView.value = galleryView.value === 'cover' ? 'contain' : 'cover'
-}
-
-type DocumentWithOptionalViewTransition = Document & {
-  startViewTransition?: Document['startViewTransition']
-}
-
-export function toggleDark(event: MouseEvent) {
-  // lib.dom models this API as always present, but we still need a runtime guard.
-  const startViewTransition = (document as DocumentWithOptionalViewTransition)
-    .startViewTransition
-    ?.bind(document)
-
-  if (!startViewTransition || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    isDark.value = !isDark.value
-    return
-  }
-
-  const button = event.currentTarget as HTMLElement | null
-  const bounds = event.detail === 0 ? button?.getBoundingClientRect() : undefined
-  const x = bounds ? bounds.left + bounds.width / 2 : event.clientX
-  const y = bounds ? bounds.top + bounds.height / 2 : event.clientY
-  const endRadius = Math.hypot(
-    Math.max(x, innerWidth - x),
-    Math.max(y, innerHeight - y),
-  )
-  let becomingDark = false
-  const transition = startViewTransition(async () => {
-    isDark.value = !isDark.value
-    becomingDark = isDark.value
-    await nextTick()
-  })
-  transition.ready
-    .then(() => {
-      const clipPath = [
-        `circle(0px at ${x}px ${y}px)`,
-        `circle(${endRadius}px at ${x}px ${y}px)`,
-      ]
-      document.documentElement.animate(
-        {
-          clipPath: becomingDark
-            ? [...clipPath].reverse()
-            : clipPath,
-        },
-        {
-          duration: 400,
-          easing: 'ease-in-out',
-          fill: 'forwards',
-          pseudoElement: becomingDark
-            ? '::view-transition-old(root)'
-            : '::view-transition-new(root)',
-        },
-      )
-    })
-    // A later transition can legitimately interrupt this one.
-    .catch((error: unknown) => {
-      if (!(error instanceof DOMException && error.name === 'AbortError'))
-        console.error('Unable to animate theme change', error)
-    })
 }
 
 function parseDisplayDate(d: string | Date) {

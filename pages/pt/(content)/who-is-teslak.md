@@ -8,8 +8,6 @@ art: random
 open: true
 ---
 
-[Não é fácil determinar quais qualidades e passatempos listar. O tempo me pareceu um critério justo: aquilo pelo que me interesso e ao que me dedico há anos, quase diariamente]{.muted}
-
 Partidário da profundidade, 🔍 da pesquisa, do trabalho com dados e das melhores práticas
 Nesse sentido, sinto uma forte afinidade com [Gwern](https://gwern.net/)
 
@@ -47,21 +45,23 @@ Acompanho ativamente todos os LLMs: uso-os, leio papers, vejo implementações 
 
 :::
 
-Sinto que acompanho o ritmo de um mundo em constante mudança. A covid-19, por exemplo, me levou a estudar a fundo biologia, vacinas e ensaios clínicos
+🐧 Uso [Fedora](https://en.wikipedia.org/wiki/Fedora_Linux), e meu servidor roda [NixOS](https://nixos.org/)
 
 🗃️ Estruturo dados. Adoro o [Obsidian](https://obsidian.md/) desde os seus primeiros betas; antes, usava o [Zotero](https://www.zotero.org/), o [Roam Research](https://roamresearch.com/) e o [Notion](https://www.notion.com), que ainda adoro e uso no trabalho em equipe
 
-Tenho muita afinidade com escrita e edição. Escrevo tudo sozinho!
+Sinto que acompanho o ritmo de um mundo em constante mudança. A covid-19, por exemplo, me levou a estudar a fundo biologia, vacinas e ensaios clínicos
+
+Tenho uma queda por bioinformática
 
 Li cerca de 50 livros de ficção, mas hoje não me atraem mais. Mudei para a não-ficção: sobre trabalho, filosofia, arte e divulgação científica. Às vezes leio sobre tecnologia, biologia e economia, mas nessas áreas prefiro artigos
 
-🐧 Uso [Fedora](https://en.wikipedia.org/wiki/Fedora_Linux), e meu servidor roda [NixOS](https://nixos.org/)
-
 [Fotografava](/pt/photos), mas me interesso mais pela parte técnica e pela teoria da arte
+
+Tenho muita afinidade com escrita e edição. Escrevo tudo sozinho!
 
 Faz alguns anos que saí da Rússia. ✈️ Estive em países muito distantes entre si e continuo explorando o mundo ativamente
 
-Sóbrio por escolha
+Não bebo, não fumo e não uso drogas
 
 ## O blog
 
@@ -80,8 +80,6 @@ Meu sobrenome é Iskra (“faísca” em russo)
 Segundo a [Wikipédia](https://ru.wikipedia.org/wiki/%D0%9C%D0%BE%D0%BB%D0%BD%D0%B8%D1%8F), o raio é uma descarga elétrica em forma de faísca na atmosfera (na Wikipédia em inglês, a palavra “faísca” é mencionada [em outro lugar](https://en.wikipedia.org/wiki/Electric_spark))
 
 Raios e eletricidade são associados a Nikola Tesla
-
-E assim nasceu o Teslak ⚡️
 
 <LightningGlow />
 

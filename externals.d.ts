@@ -11,7 +11,7 @@ declare module '*.svg?component' {
 interface Window {
   twttr?: {
     widgets?: {
-      load: (element?: Element | null) => void
+      load: (element?: Element | null) => Promise<unknown> | void
     }
   }
 }

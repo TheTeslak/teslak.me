@@ -32,7 +32,7 @@ Sharing [finds](/en/finds)
   <a href="https://smp19.simplex.im/a#ZZe8llIR9yKEFjb_Jn6TAM0dyHYZ3dVusDDJVbf-HNc" target="_blank"><span op75 i-simple-icons-simplex /> SimpleX</a>
 </p>
 
-<span font-mono>Teslak<span i-carbon-at/>proton.me</span> <Popover trigger="GPG?" label="Why no GPG?"><p>Email is fundamentally insecure. For private messaging: Signal [or SimpleX]{.muted}</p><p>GPG is an email encryption tool whose keys are often shared on tech blogs out of tradition</p></Popover>
+<span font-mono>Teslak<span i-carbon-at/>proton.me</span> <Popover trigger="GPG?" label="Why no GPG?"><p>GPG is an email encryption tool whose keys are often shared on tech blogs out of tradition</p><p>Email is fundamentally insecure. For private messaging: Signal [or SimpleX]{.muted}</p></Popover>
 
 ::: ascii capybara
 

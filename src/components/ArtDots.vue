@@ -4,6 +4,7 @@ import { Application, Graphics, Particle, ParticleContainer } from 'pixi.js'
 import { createNoise3D } from 'simplex-noise'
 import { useArtMotion } from '~/logics/art-motion'
 import { useArtResize } from '~/logics/art-resize'
+import { isThemeTransitioning } from '~/logics/theme'
 
 const el = useTemplateRef('el')
 
@@ -101,7 +102,7 @@ async function setup() {
   })
 
   mountedScope.run(() => {
-    useArtMotion({ pause: () => app.ticker.stop(), resume: () => app.ticker.start() }, renderStatic)
+    useArtMotion({ pause: () => app.ticker.stop(), resume: () => app.ticker.start() }, renderStatic, isThemeTransitioning)
     useArtResize(() => {
       w = window.innerWidth
       h = window.innerHeight
