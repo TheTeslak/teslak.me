@@ -8,6 +8,27 @@ export interface FindItem {
 
 export const finds: FindItem[] = [
   {
+    id: 'yale-little-histories',
+    url: 'https://yalebooks.co.uk/little-histories/',
+    title: 'Yale Little Histories',
+    desc: 'Illustrated books tracing how different subjects developed, each told across 40 short chapters',
+    date: '2026-11-11',
+  },
+  {
+    id: 'oxford-very-short-introductions',
+    url: 'https://academic.oup.com/very-short-introductions',
+    title: 'Oxford Very Short Introductions',
+    desc: 'Focused primers on the central concepts, theories, and debates within individual fields of study',
+    date: '2026-11-11',
+  },
+  {
+    id: 'penguin-great-ideas',
+    url: 'https://www.penguin.co.uk/series/PEN02/penguin-great-ideas',
+    title: 'Penguin Great Ideas',
+    desc: 'Selected writings by influential philosophers, essayists, and political thinkers',
+    date: '2026-11-11',
+  },
+  {
     id: 'holding-up-the-internet',
     url: 'https://sheets.works/data-viz/holding-up-the-internet',
     title: '⭐️ The people holding up the internet',
